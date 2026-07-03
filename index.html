@@ -3,823 +3,2067 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarmad Dawood – iOS Developer Portfolio</title>
-    
-    <!-- ==============================================================
-    FONTS: Space Grotesk (headings) and Inter (body text)
-    Space Grotesk gives the Aeonik-style geometric feel; Inter is clean and readable.
-    ============================================================== -->
+    <title>Sarmad Dawood – iOS Developer</title>
+    <meta name="description" content="Senior iOS Developer specializing in SwiftUI, Swift 6, and Clean Architecture. 3+ years building production-grade apps for enterprise and App Store.">
+    <meta name="keywords" content="iOS Developer, SwiftUI, Swift, Mobile Developer, Portfolio">
+    <meta name="author" content="Sarmad Dawood">
+    <meta property="og:title" content="Sarmad Dawood – iOS Developer">
+    <meta property="og:description" content="Senior iOS Developer specializing in SwiftUI and Clean Architecture.">
+    <meta property="og:type" content="website">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome 6 (icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        /* ==============================================================
-               GLOBAL RESET & BASE STYLES
-               - Resets margins/paddings, sets box-sizing, defines the color palette.
-               - All colors come from the Aeonik reference: #F8F8F8 (background),
-                 #222222 (primary text), #7B7B7B (secondary text), #FFFFFF (cards).
-               ============================================================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            background: #F8F8F8;
-            font-family: 'Inter', sans-serif;
-            color: #222222;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        a { text-decoration: none; color: inherit; }
-        ul, li { list-style: none; padding: 0; margin: 0; }
+/* ============================================================
+   DESIGN TOKENS
+============================================================ */
+:root {
+    --bg:           #000000;
+    --bg-2:         #0a0a0a;
+    --bg-3:         #111111;
+    --surface:      rgba(255,255,255,0.04);
+    --surface-2:    rgba(255,255,255,0.07);
+    --surface-3:    rgba(255,255,255,0.10);
+    --border:       rgba(255,255,255,0.08);
+    --border-2:     rgba(255,255,255,0.14);
+    --text-primary: #f5f5f7;
+    --text-2:       #a1a1a6;
+    --text-3:       #6e6e73;
+    --accent:       #2997ff;
+    --accent-2:     #5ac8fa;
+    --accent-glow:  rgba(41,151,255,0.25);
+    --green:        #30d158;
+    --purple:       #bf5af2;
+    --orange:       #ff9f0a;
+    --radius-sm:    10px;
+    --radius-md:    16px;
+    --radius-lg:    24px;
+    --radius-xl:    32px;
+    --shadow-sm:    0 1px 3px rgba(0,0,0,0.4);
+    --shadow-md:    0 4px 24px rgba(0,0,0,0.5);
+    --shadow-lg:    0 16px 64px rgba(0,0,0,0.6);
+    --transition:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+    --font:         'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-        /* ==============================================================
-               PRELOADER
-               - Shows a spinning loader while the page loads.
-               - Hidden via JavaScript after load.
-               ============================================================== */
-        #preloader {
-            position: fixed; inset: 0; z-index: 9999;
-            background: #F8F8F8;
-            display: flex; align-items: center; justify-content: center;
-            gap: 16px;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        #preloader.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; }
-        .loader-spinner {
-            width: 32px; height: 32px;
-            border: 3px solid #E5E5E5;
-            border-top-color: #222222;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loader-text {
-            font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-            color: #222222; letter-spacing: 2px; font-size: 0.85rem;
-        }
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
 
-        /* ==============================================================
-               MAIN CONTAINER
-               - Centers content with a max-width of 1280px.
-               - Provides consistent horizontal padding.
-               ============================================================== */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 40px 80px;
-        }
+/* ============================================================
+   SCROLLBAR
+============================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
 
-        /* ==============================================================
-               HEADER / NAVIGATION
-               - Sticky (no sticky here, just fixed at the top) – actually not sticky,
-                 but follows the Aeonik minimalist style.
-               - Brand name on left, navigation links on right.
-               - Contains contact links (Email, Phone, LinkedIn, GitHub) and a "Book A Call" CTA.
-               ============================================================== */
-        header {
-            padding: 24px 0;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #E5E5E5;
-            margin-bottom: 20px;
-        }
-        header .brand {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600; font-size: 1.2rem;
-            letter-spacing: -0.5px;
-            color: #222222;
-        }
-        header .nav-links {
-            display: flex; align-items: center; gap: 16px;
-        }
-        header .nav-links a {
-            font-size: 0.85rem; font-weight: 500; color: #7B7B7B;
-            transition: color 0.2s;
-            display: flex; align-items: center; gap: 6px;
-        }
-        header .nav-links a:hover { color: #222222; }
-        /* Vertical divider between contact links and navigation links */
-        header .nav-links .divider {
-            width: 1px; height: 24px; background: #E5E5E5;
-        }
-        /* Call-to-action button */
-        header .nav-links .btn-cta {
-            background: #222222; color: #FFFFFF;
-            padding: 10px 24px; border-radius: 40px; font-weight: 500;
-            transition: background 0.2s;
-        }
-        header .nav-links .btn-cta:hover { background: #444444; color: #FFFFFF; }
+/* ============================================================
+   SELECTION
+============================================================ */
+::selection { background: var(--accent-glow); color: var(--text-primary); }
 
-        /* ==============================================================
-               SCROLL REVEAL ANIMATIONS
-               - Used by IntersectionObserver to fade and slide up elements on scroll.
-               - .reveal is the base class; .active is added when element enters viewport.
-               - Delay classes create staggered effects.
-               ============================================================== */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
-        .delay-4 { transition-delay: 0.4s; }
+/* ============================================================
+   NOISE TEXTURE OVERLAY
+============================================================ */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+}
 
-        /* ==============================================================
-               TYPOGRAPHY
-               - Headings use Space Grotesk for the geometric Aeonik look.
-               - h2 is used for section titles with a bottom border.
-               ============================================================== */
-        h1, h2, h3, h4, .hero-stats, .scroll-indicator {
-            font-family: 'Space Grotesk', sans-serif;
-            letter-spacing: -0.02em;
-        }
-        h2 {
-            font-size: 2.8rem; font-weight: 500; color: #222222;
-            margin: 60px 0 30px; 
-            border-bottom: 1px solid #E5E5E5; padding-bottom: 20px;
-        }
+/* ============================================================
+   AMBIENT GRADIENT BACKGROUNDS
+============================================================ */
+.ambient {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+.ambient-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(41,151,255,0.12) 0%, transparent 70%);
+    top: -200px; left: -200px;
+}
+.ambient-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(191,90,242,0.08) 0%, transparent 70%);
+    bottom: 20%; right: -150px;
+}
+.ambient-3 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(48,209,88,0.06) 0%, transparent 70%);
+    top: 60%; left: 20%;
+}
 
-        /* ==============================================================
-               HERO SECTION
-               - Centered, with a large heading, subtitle, and stats.
-               - No image; the design is text-focused.
-               ============================================================== */
-        .hero {
-            display: flex;
-            padding: 20px 0 60px;
-            justify-content: center;
-            align-items: center;
-        }
-        .hero-left {
-            flex: 1;
-            max-width: 900px;
-            text-align: center;
-            margin: 0 auto;
-        }
-        .hero-stats {
-            display: flex; justify-content: center; gap: 32px;
-            font-size: 0.9rem; font-weight: 500; color: #7B7B7B;
-            margin-bottom: 40px;
-        }
-        .hero-stats span { display: flex; align-items: baseline; gap: 4px; }
-        .hero-stats strong { color: #222222; font-size: 1.1rem; font-weight: 600; }
-        .hero-left h1 {
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 300;
-            line-height: 1.05;
-            color: #222222;
-            margin-bottom: 8px;
-        }
-        .hero-left .subtitle {
-            font-size: 1.2rem; font-weight: 400; color: #7B7B7B;
-            margin-bottom: 40px;
-            letter-spacing: 1px;
-        }
-        .scroll-indicator {
-            font-size: 0.8rem; color: #7B7B7B; font-weight: 500;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-        }
+/* ============================================================
+   LAYOUT CONTAINERS
+============================================================ */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+.section-wrapper {
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+}
 
-        /* ==============================================================
-               CARDS
-               - Used for About, Experience, Personal Projects, Exploring.
-               - White background, light border, soft shadow, hover lift.
-               ============================================================== */
-        .card {
-            background: #FFFFFF; border-radius: 16px; padding: 28px 32px;
-            border: 1px solid #E5E5E5; 
-            margin-bottom: 24px;
-            transition: all 0.3s ease;
-        }
-        .card:hover { border-color: #7B7B7B; transform: translateY(-2px); }
+/* ============================================================
+   HERO TYPEWRITER CURSOR
+   Sits inline after the typed name inside .gradient-text
+============================================================ */
+.hero-cursor {
+    display: inline-block;
+    width: 3px;
+    /* matches the cap-height of the heading font */
+    height: 0.78em;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: hero-blink 0.65s step-end infinite;
+    transition: opacity 0.4s ease;
+}
+@keyframes hero-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
 
-        /* ==============================================================
-               ABOUT SECTION
-               - Simple text card with a strong introductory statement.
-               ============================================================== */
-        .about-card p { text-align: justify; font-size: 1rem; color: #444; }
-        .about-card strong { color: #222222; font-weight: 600; }
 
-        /* ==============================================================
-               SKILLS (PILL TAGS)
-               - Grouped by category. Each tag is a rounded pill.
-               - Hover effect changes border color and lifts slightly.
-               ============================================================== */
-        .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-        .skill-tag {
-            background: #F8F8F8; color: #222222;
-            padding: 6px 18px; border-radius: 40px;
-            font-size: 0.8rem; font-weight: 500;
-            border: 1px solid #E5E5E5;
-            transition: 0.2s; cursor: default;
-        }
-        .skill-tag:hover { background: #FFFFFF; border-color: #7B7B7B; }
-        .skill-category { margin-bottom: 28px; }
-        .skill-category .label {
-            font-size: 0.75rem; font-weight: 600; color: #7B7B7B;
-            text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px;
-        }
 
-        /* ==============================================================
-               EXPERIENCE & PERSONAL PROJECTS CARDS
-               - Used for professional experience and personal projects.
-               - Header includes job title, company, and date.
-               - Bullet points with a custom dash (—) marker.
-               ============================================================== */
-        .exp-header {
-            display: flex; justify-content: space-between; flex-wrap: wrap; align-items: baseline; margin-bottom: 4px;
-        }
-        .exp-header h3 { font-size: 1.25rem; color: #222222; font-weight: 600; }
-        .exp-header .company { color: #7B7B7B; font-weight: 500; font-size: 0.95rem; }
-        .exp-header .date { font-size: 0.85rem; color: #7B7B7B; font-weight: 400; }
-        .exp-subtitle { font-weight: 500; color: #555; margin: 4px 0 8px; font-size: 0.95rem; }
-        .tech-stack {
-            font-size: 0.75rem; color: #222222; background: #F8F8F8;
-            display: inline-block; padding: 4px 16px; border-radius: 30px; margin-bottom: 14px; font-weight: 500;
-        }
-        .card ul { list-style: none; padding-left: 0; }
-        .card ul li {
-            padding-left: 22px; position: relative; margin-bottom: 8px;
-            font-size: 0.95rem; text-align: justify; color: #4b5563;
-        }
-        .card ul li::before { content: "—"; position: absolute; left: 0; color: #222222; font-weight: bold; }
+/* ============================================================
+   NAVIGATION
+============================================================ */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 0;
+    transition: all 0.4s var(--transition);
+}
+nav.scrolled .nav-inner {
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 40px rgba(0,0,0,0.4);
+}
+.nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s var(--transition);
+}
+.nav-brand {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+.nav-brand span {
+    color: var(--accent);
+}
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.nav-links a {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.01em;
+}
+.nav-links a:hover {
+    color: var(--text-primary);
+    background: var(--surface-2);
+}
+.nav-links a.active {
+    color: var(--text-primary);
+    background: var(--surface-2);
+}
+.nav-cta {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    background: var(--accent) !important;
+    padding: 8px 18px !important;
+    border-radius: 20px !important;
+    transition: all 0.2s ease !important;
+    letter-spacing: 0.01em;
+}
+.nav-cta:hover {
+    background: var(--accent-2) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px var(--accent-glow) !important;
+}
+.nav-menu-btn {
+    display: none;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: var(--text-2);
+    background: var(--surface);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+.nav-menu-btn:hover { background: var(--surface-2); color: var(--text-primary); }
 
-        /* ==============================================================
-               PROJECTS TABLE
-               - Displays key projects with their tech stack and status.
-               - Styled as a clean, bordered table.
-               ============================================================== */
-        .projects-table {
-            width: 100%; border-collapse: collapse; font-size: 0.9rem;
-            background: #FFFFFF; border-radius: 16px; overflow: hidden;
-            border: 1px solid #E5E5E5;
-        }
-        .projects-table th { background: #F8F8F8; color: #222222; text-align: left; padding: 14px 20px; border-bottom: 1px solid #E5E5E5; font-weight: 600; }
-        .projects-table td { padding: 14px 20px; border-bottom: 1px solid #E5E5E5; color: #4b5563; }
-        .projects-table tr:last-child td { border-bottom: none; }
-        .projects-table .app-name { font-weight: 600; color: #222222; width: 28%; }
-        .projects-table .stack { color: #7B7B7B; width: 55%; }
-        .projects-table .status { color: #222222; font-weight: 500; width: 17%; }
+/* Mobile nav drawer */
+.nav-drawer {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px 24px;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 999;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.3s var(--transition);
+}
+.nav-drawer.open {
+    transform: translateY(0);
+    opacity: 1;
+}
+.nav-drawer a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-2);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s;
+}
+.nav-drawer a:last-child { border-bottom: none; }
+.nav-drawer a:hover { color: var(--text-primary); }
 
-        /* ==============================================================
-               EDUCATION
-               - Simple list of education entries.
-               - Each entry is a white card with light border.
-               ============================================================== */
-        .edu-item {
-            background: #FFFFFF; padding: 16px 20px; border-radius: 16px;
-            margin-bottom: 14px; border: 1px solid #E5E5E5;
-        }
-        .edu-item h4 { color: #222222; font-size: 1rem; }
-        .edu-item p { font-size: 0.85rem; color: #7B7B7B; margin-bottom: 2px; }
-        .edu-item .subjects { font-size: 0.8rem; color: #7B7B7B; }
+/* ============================================================
+   HERO SECTION
+============================================================ */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 32px 80px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(41,151,255,0.1);
+    border: 1px solid rgba(41,151,255,0.2);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.7s var(--transition) 0.1s forwards;
+}
+.hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero-title {
+    font-size: clamp(3.2rem, 9vw, 8rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    /* whole title fades up once */
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.7s var(--transition) 0.4s forwards;
+}
+.hero-title .gradient-text {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 50%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* JS fills characters into this span; starts empty */
+    display: inline;
+}
+.hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: var(--text-2);
+    margin-bottom: 48px;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(20px);
+    /* delayed past typewriter finish (~1.5s title fade + ~1.2s typing) */
+    animation: fadeUp 0.7s var(--transition) 2s forwards;
+}
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s var(--transition) 2.2s forwards;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    display: inline-flex;
+}
+.stat-item {
+    padding: 20px 36px;
+    text-align: center;
+    position: relative;
+}
+.stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; bottom: 20%;
+    width: 1px;
+    background: var(--border);
+}
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-3);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s var(--transition) 2.4s forwards;
+}
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    padding: 14px 28px;
+    border-radius: 50px;
+    transition: all 0.3s var(--spring);
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 24px rgba(41,151,255,0.3);
+}
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(41,151,255,0.45);
+    background: #4da8ff;
+}
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 50px;
+    transition: all 0.3s var(--spring);
+    letter-spacing: -0.01em;
+    backdrop-filter: blur(10px);
+}
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    background: var(--surface-2);
+    border-color: var(--border-2);
+    color: var(--text-primary);
+}
+.hero-scroll {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.8s forwards;
+}
+.scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--border-2), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+}
+@keyframes scroll-pulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+}
+.scroll-text {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
 
-        /* ==============================================================
-               SOFT SKILLS
-               - Horizontal list of skill tags with check icons.
-               - Displayed in a white container with border.
-               ============================================================== */
-        .soft-skills-container {
-            display: flex; flex-wrap: wrap; gap: 12px 24px;
-            background: #FFFFFF; padding: 20px 24px; border-radius: 16px;
-            border: 1px solid #E5E5E5; font-size: 0.95rem; color: #444;
-        }
-        .soft-skills-container span { display: flex; align-items: center; gap: 8px; }
-        .soft-skills-container i { color: #222222; }
+/* Hero grid BG */
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    pointer-events: none;
+}
 
-        /* ==============================================================
-               FOOTER
-               - Three columns: Brand/Location, Contact, Social.
-               - Each column is centered with perfect alignment.
-               - Social icons are circular with hover effects.
-               ============================================================== */
-        footer {
-            background: #FFFFFF;
-            border-top: 1px solid #E5E5E5;
-            padding: 40px 0;
-            margin-top: 40px;
-        }
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 30px;
-            align-items: flex-start;
-        }
-        .footer-col {
-            flex: 1;
-            min-width: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .footer-col h4 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 12px;
-            color: #222222;
-            text-align: center;
-            width: 100%;
-        }
-        .footer-col p, .footer-col a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #7B7B7B;
-            font-size: 0.9rem;
-            margin-bottom: 6px;
-            transition: color 0.2s;
-            text-align: center;
-            width: 100%;
-        }
-        .footer-col a:hover { color: #222222; }
-        .footer-col i { width: 20px; margin-right: 8px; color: #222222; }
-        .social-links {
-            display: flex;
-            gap: 12px;
-            margin-top: 6px;
-            justify-content: center;
-            width: 100%;
-        }
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #F8F8F8;
-            border: 1px solid #E5E5E5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #222222;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            margin: 0;
-            text-decoration: none;
-            line-height: 1;
-        }
-        .social-links a i {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            margin: 0;
-        }
-        .social-links a:hover {
-            background: #222222;
-            color: #FFFFFF;
-            border-color: #222222;
-            transform: translateY(-3px);
-        }
+/* ============================================================
+   SECTION HEADERS
+============================================================ */
+.section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+.section-label::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+}
+.section-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+.section-desc {
+    font-size: 1.05rem;
+    color: var(--text-2);
+    max-width: 520px;
+    line-height: 1.7;
+}
 
-        /* ==============================================================
-               RESPONSIVE ADJUSTMENTS
-               - For screens smaller than 800px, stack elements vertically.
-               ============================================================== */
-        @media (max-width: 800px) {
-            .container { padding: 0 20px 40px; }
-            .hero-left { text-align: center; }
-            .hero-stats { justify-content: center; flex-wrap: wrap; gap: 16px; }
-            .scroll-indicator { display: none; }
-            header { flex-direction: column; gap: 12px; align-items: stretch; border-bottom: none; }
-            header .brand { text-align: center; }
-            header .nav-links { justify-content: center; flex-wrap: wrap; gap: 8px; }
-            header .nav-links .divider { display: none; }
-            h2 { font-size: 2rem; }
-            .footer-content { flex-direction: column; text-align: center; }
-            .footer-col { width: 100%; }
-            .social-links { justify-content: center; }
-        }
+/* ============================================================
+   CARDS (GLASS)
+============================================================ */
+.glass-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.35s var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+.glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    border-radius: inherit;
+}
+.glass-card:hover {
+    border-color: var(--border-2);
+    background: var(--surface-2);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px var(--border-2);
+}
+
+/* ============================================================
+   REVEAL ANIMATIONS
+============================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-24px);
+    transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity 0.6s var(--transition), transform 0.6s var(--spring);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+.d1 { transition-delay: 0.05s; }
+.d2 { transition-delay: 0.12s; }
+.d3 { transition-delay: 0.19s; }
+.d4 { transition-delay: 0.26s; }
+.d5 { transition-delay: 0.33s; }
+
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    to { opacity: 0.6; }
+}
+
+/* ============================================================
+   ABOUT SECTION
+============================================================ */
+.about-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.about-main {
+    padding: 40px;
+}
+.about-text {
+    font-size: 1.05rem;
+    color: var(--text-2);
+    line-height: 1.8;
+}
+.about-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+/* 4 cards in one row; auto-fit collapses gracefully on narrow screens */
+.about-highlights {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+.highlight-card {
+    padding: 20px;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+    transition: all 0.3s var(--transition);
+}
+.highlight-card:hover {
+    border-color: var(--border-2);
+    background: var(--surface-2);
+    transform: translateY(-2px);
+}
+.highlight-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+.highlight-icon.blue  { background: rgba(41,151,255,0.15); color: var(--accent); }
+.highlight-icon.purple{ background: rgba(191,90,242,0.15); color: var(--purple); }
+.highlight-icon.green { background: rgba(48,209,88,0.15);  color: var(--green); }
+.highlight-icon.orange{ background: rgba(255,159,10,0.15); color: var(--orange); }
+.highlight-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
+.highlight-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* ============================================================
+   SKILLS SECTION
+============================================================ */
+.skills-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.skills-group {
+    padding: 32px 36px;
+}
+.skills-group-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.skills-group-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+.skills-group-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
+.skills-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.pill {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-2);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 7px 16px;
+    border-radius: 50px;
+    transition: all 0.2s var(--spring);
+    cursor: default;
+    letter-spacing: 0.01em;
+}
+.pill:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.08);
+    border-color: var(--border-2);
+    transform: translateY(-2px);
+}
+.pill.accent { border-color: rgba(41,151,255,0.3); color: var(--accent); background: rgba(41,151,255,0.08); }
+.pill.purple  { border-color: rgba(191,90,242,0.3); color: var(--purple); background: rgba(191,90,242,0.08); }
+.pill.green   { border-color: rgba(48,209,88,0.3);  color: var(--green);  background: rgba(48,209,88,0.08); }
+
+/* ============================================================
+   EXPERIENCE SECTION
+============================================================ */
+.experience-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.exp-card {
+    padding: 36px 40px;
+}
+.exp-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+.exp-role { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+.exp-date {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.exp-company {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+.exp-app {
+    font-size: 0.88rem;
+    color: var(--text-3);
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+.exp-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+}
+.stack-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+.exp-list { display: flex; flex-direction: column; gap: 10px; }
+.exp-list li {
+    font-size: 0.9rem;
+    color: var(--text-2);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.6;
+}
+.exp-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 10px;
+    width: 5px; height: 1px;
+    background: var(--accent);
+}
+.exp-list li strong { color: var(--text-primary); font-weight: 600; }
+
+.exp-category-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 16px;
+    padding-left: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.exp-category-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* ============================================================
+   PROJECTS SECTION
+============================================================ */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+.project-card {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 240px;
+}
+.project-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+.project-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+.project-status {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+.status-live    { color: var(--green);  background: rgba(48,209,88,0.1);  border: 1px solid rgba(48,209,88,0.25); }
+.status-b2b     { color: var(--orange); background: rgba(255,159,10,0.1); border: 1px solid rgba(255,159,10,0.25); }
+.status-na      { color: var(--text-3); background: var(--surface-2);     border: 1px solid var(--border); }
+.project-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+.project-desc {
+    font-size: 0.85rem;
+    color: var(--text-2);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 20px;
+}
+.project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.project-stack span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+/* ============================================================
+   PERSONAL PROJECTS / AGENTIC SECTION
+============================================================ */
+.agentic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.agentic-card {
+    padding: 28px 32px;
+}
+.agentic-card-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+.agentic-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+.agentic-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-2);
+    line-height: 1.6;
+}
+
+/* ============================================================
+   EXPLORING SECTION
+============================================================ */
+.exploring-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+.exploring-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.25s var(--transition);
+    cursor: default;
+}
+.exploring-item:last-child { border-bottom: none; }
+.exploring-item:hover { background: var(--surface-2); }
+.exploring-item-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+.exploring-item-content { flex: 1; }
+.exploring-item-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+.exploring-item-desc {
+    font-size: 0.83rem;
+    color: var(--text-2);
+    line-height: 1.5;
+}
+.exploring-item-arrow {
+    color: var(--text-3);
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+}
+.exploring-item:hover .exploring-item-arrow { transform: translateX(3px); }
+
+/* ============================================================
+   EDUCATION SECTION
+============================================================ */
+.edu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.edu-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px 32px;
+}
+.edu-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: rgba(41,151,255,0.1);
+    border: 1px solid rgba(41,151,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+.edu-content { flex: 1; }
+.edu-degree {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+}
+.edu-meta {
+    font-size: 0.83rem;
+    color: var(--text-3);
+    margin-bottom: 8px;
+}
+.edu-subjects {
+    font-size: 0.8rem;
+    color: var(--text-3);
+    line-height: 1.5;
+}
+.edu-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(41,151,255,0.1);
+    border: 1px solid rgba(41,151,255,0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+/* ============================================================
+   SOFT SKILLS SECTION
+============================================================ */
+.soft-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+}
+.soft-skill-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: all 0.25s var(--transition);
+    cursor: default;
+}
+.soft-skill-item:hover {
+    background: var(--surface-2);
+    border-color: var(--border-2);
+    transform: translateX(4px);
+}
+.soft-skill-check {
+    color: var(--green);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.soft-skill-text {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-2);
+    line-height: 1.3;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-2);
+    padding: 60px 0 40px;
+    position: relative;
+    z-index: 1;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+.footer-brand-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+.footer-brand-role {
+    font-size: 0.85rem;
+    color: var(--text-3);
+    margin-bottom: 20px;
+}
+.footer-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: var(--text-3);
+}
+.footer-col-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 16px;
+}
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.footer-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-2);
+    transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--text-primary); }
+.footer-links a i { width: 14px; color: var(--text-3); font-size: 0.8rem; }
+.footer-social {
+    display: flex;
+    gap: 10px;
+}
+.social-btn {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-2);
+    font-size: 1rem;
+    transition: all 0.25s var(--spring);
+}
+.social-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(41,151,255,0.3);
+}
+.footer-bottom {
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.footer-copy {
+    font-size: 0.78rem;
+    color: var(--text-3);
+}
+.footer-made {
+    font-size: 0.78rem;
+    color: var(--text-3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.footer-made .heart { color: #ff453a; }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .section-wrapper { padding: 72px 0; }
+    .nav-links { display: none; }
+    .nav-menu-btn { display: flex; }
+    .nav-drawer { display: flex; }
+    .hero { padding: 100px 24px 80px; }
+    .about-highlights { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .agentic-grid { grid-template-columns: 1fr; }
+    .exp-card { padding: 28px 24px; }
+}
+@media (max-width: 640px) {
+    .hero-title { font-size: clamp(2.8rem, 12vw, 4rem); }
+    .hero-stats { flex-direction: column; gap: 0; }
+    .stat-item { padding: 16px 24px; }
+    .stat-item::after { display: none; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .about-highlights { grid-template-columns: 1fr; }
+    .about-main { padding: 28px 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .section-title { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+    .exp-card-header { flex-direction: column; gap: 8px; }
+    .skills-group { padding: 24px; }
+    .edu-card { flex-direction: column; gap: 12px; }
+}
+
+/* ============================================================
+   CURSOR GLOW (desktop)
+============================================================ */
+.cursor-glow {
+    position: fixed;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(41,151,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: left 0.3s ease, top 0.3s ease;
+    z-index: 0;
+    display: none;
+}
+@media (hover: hover) {
+    .cursor-glow { display: block; }
+}
+
     </style>
 </head>
 <body>
 
-    <!-- ==============================================================
-    PRELOADER
-    - Shows while the page is loading.
-    - Hidden by JavaScript after the window load event.
-    ============================================================== -->
-    <div id="preloader">
-        <div class="loader-spinner"></div>
-        <div class="loader-text">Loading</div>
-    </div>
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
 
-    <!-- ==============================================================
-    HEADER
-    - Contains the brand name and navigation links.
-    - Includes contact shortcuts (Email, Phone, LinkedIn, GitHub) and a CTA button.
-    ============================================================== -->
+<!-- Ambient lights -->
+<div class="ambient ambient-1" id="amb1"></div>
+<div class="ambient ambient-2" id="amb2"></div>
+<div class="ambient ambient-3" id="amb3"></div>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<nav id="mainNav">
+    <div class="nav-inner">
+        <div class="nav-brand">Sarmad <span>Dawood</span></div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Education</a>
+            <a href="mailto:sarmaddawood66@gmail.com" class="nav-cta">Book a Call</a>
+        </div>
+        <button class="nav-menu-btn" id="menuBtn" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+    <a href="#about" class="nav-drawer-link">About</a>
+    <a href="#skills" class="nav-drawer-link">Skills</a>
+    <a href="#experience" class="nav-drawer-link">Experience</a>
+    <a href="#projects" class="nav-drawer-link">Projects</a>
+    <a href="#education" class="nav-drawer-link">Education</a>
+    <a href="mailto:sarmaddawood66@gmail.com">Book a Call</a>
+</div>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero" id="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-eyebrow" aria-label="Available for new opportunities">
+        Available for new opportunities
+    </div>
+    <h1 class="hero-title">
+        Hello, I'm<br><span class="gradient-text" id="heroName"></span><span class="hero-cursor" id="heroCursor"></span>
+    </h1>
+    <p class="hero-subtitle">iOS Developer &amp; SwiftUI Specialist</p>
+    <div class="hero-stats" role="list">
+        <div class="stat-item" role="listitem">
+            <div class="stat-number">3+</div>
+            <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-item" role="listitem">
+            <div class="stat-number">7+</div>
+            <div class="stat-label">Apps Shipped</div>
+        </div>
+        <div class="stat-item" role="listitem">
+            <div class="stat-number">7+</div>
+            <div class="stat-label">Clients Served</div>
+        </div>
+        <div class="stat-item" role="listitem">
+            <div class="stat-number">50k+</div>
+            <div class="stat-label">Lines of Swift</div>
+        </div>
+    </div>
+    <div class="hero-actions">
+        <a href="#experience" class="btn-primary">
+            <i class="fas fa-briefcase"></i>
+            View My Work
+        </a>
+        <a href="mailto:sarmaddawood66@gmail.com" class="btn-secondary">
+            <i class="fas fa-envelope"></i>
+            Get in Touch
+        </a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span class="scroll-text">Scroll</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+============================================================ -->
+<section id="about" class="section-wrapper">
     <div class="container">
-        <header>
-            <div class="brand">iOS Developer</div>
-            <div class="nav-links">
-                <!-- Contact Info Links -->
-                <a href="mailto:sarmaddawood66@gmail.com">Email</a>
-                <a href="tel:+923075386948">Phone</a>
-                <a href="https://www.linkedin.com/in/sarmad-dawood-992556177/" target="_blank">LinkedIn</a>
-                <a href="https://github.com/sarmaddawood" target="_blank">GitHub</a>
-                
-                <!-- Vertical Divider -->
-                <span class="divider"></span>
+        <div class="reveal">
+            <div class="section-label">About</div>
+            <h2 class="section-title">Crafting iOS experiences<br>that actually matter</h2>
+        </div>
 
-                <!-- Navigation Links (anchor to sections) -->
-                <a href="#about">About</a>
-                <a href="#experience">Work</a>
-                <a href="#projects">Projects</a>
-                <a href="mailto:sarmaddawood66@gmail.com" class="btn-cta">Book A Call</a>
+        <div class="about-grid" style="margin-top: 40px;">
+            <!-- Main bio card -->
+            <div class="glass-card about-main reveal d1">
+                <p class="about-text">
+                    <strong>Results-driven iOS Developer</strong> with 3 years of hands-on experience building production-grade applications for enterprise clients and the public App Store. Expert in <strong>Swift 6, SwiftUI, and UIKit</strong> with deep proficiency in MVVM + Clean Architecture, Firebase, and native biometric face authentication via C++ bridging.
+                </p>
+                <br>
+                <p class="about-text">
+                    I'm passionate about <strong>agentic coding</strong> — building AI-driven autonomous workflows that multiply developer productivity. My favourite tools: <strong>Claude, Kimi, Gemini, and DeepSeek</strong>. I focus more on <strong>problem solving</strong> than just writing code, prioritising clean architecture, testability, and long-term maintainability over clever one-liners.
+                </p>
+                <br>
+                <p class="about-text">
+                    Specialist in B2B mobile delivery with parallel distribution pipelines — App Store, Unlisted, Ad Hoc, ABM/MDM. I thrive on leading technical decisions, mentoring teammates, and bringing innovative solutions to complex enterprise problems.
+                </p>
             </div>
-        </header>
 
-        <!-- ==============================================================
-        HERO SECTION
-        - Large heading, stats, subtitle, and scroll hint.
-        ============================================================== -->
-        <section class="hero reveal active">
-            <div class="hero-left">
-                <div class="hero-stats">
-                    <span><strong>+3</strong> Years Experience</span>
-                    <span><strong>+7</strong> Apps Shipped</span>
-                    <span><strong>+7</strong> Clients</span>
-                </div>
-                <h1>Hello, <br>I'm Sarmad</h1>
-                <div class="subtitle">iOS Developer &amp; SwiftUI Specialist</div>
-                <div class="scroll-indicator">
-                    <i class="fas fa-arrow-down"></i> Scroll down
-                </div>
-            </div>
-        </section>
-
-        <!-- ==============================================================
-        ABOUT SECTION
-        - Professional summary with key strengths and agentic coding passion.
-        ============================================================== -->
-        <section id="about" class="about-card card reveal delay-1">
-            <p>
-                <strong>Results‑driven iOS Developer</strong> with 3 years of hands‑on experience building production‑grade applications for enterprise clients and the public App Store. Expert in <strong>Swift 6, SwiftUI, and UIKit</strong> with deep proficiency in <strong>MVVM + Clean Architecture</strong>, Firebase, and native biometric face authentication (Luxand FaceSDK, C++ bridging).
-                <br><br>
-                <strong>I love agentic coding (aka vibe coding)</strong> – building AI‑driven autonomous workflows. My favorite AI tools are <strong>Claude, Kimi, Gemini, and DeepSeek</strong>. I focus more on <strong>problem solving</strong> than just writing code, emphasizing clean architecture, testability, and long‑term maintainability.
-                <br><br>
-                Specialist in B2B mobile delivery with parallel distribution pipelines (App Store, Unlisted, Ad Hoc, ABM/MDM). I thrive on leading technical decisions, mentoring, and bringing innovative solutions to the table.
-            </p>
-        </section>
-
-        <!-- ==============================================================
-        TECHNICAL SKILLS
-        - Grouped by category, each skill is a pill tag.
-        ============================================================== -->
-        <h2 class="reveal delay-1"><i class="fas fa-code"></i> Technical Skills</h2>
-        <div class="skill-category reveal delay-1">
-            <span class="label">Languages &amp; Core</span>
-            <div class="skills-grid">
-                <span class="skill-tag">Swift 6</span>
-                <span class="skill-tag">Swift 5.9</span>
-                <span class="skill-tag">Objective‑C</span>
-                <span class="skill-tag">C++ (bridge)</span>
-            </div>
-        </div>
-        <div class="skill-category reveal delay-2">
-            <span class="label">UI &amp; Architecture</span>
-            <div class="skills-grid">
-                <span class="skill-tag">SwiftUI</span>
-                <span class="skill-tag">UIKit</span>
-                <span class="skill-tag">Combine</span>
-                <span class="skill-tag">MVVM + Clean Arch</span>
-                <span class="skill-tag">Coordinator</span>
-                <span class="skill-tag">Repository</span>
-                <span class="skill-tag">Dependency Injection</span>
-            </div>
-        </div>
-        <div class="skill-category reveal delay-3">
-            <span class="label">Backend, Data &amp; Security</span>
-            <div class="skills-grid">
-                <span class="skill-tag">Firebase</span>
-                <span class="skill-tag">REST APIs</span>
-                <span class="skill-tag">Core Data / SwiftData</span>
-                <span class="skill-tag">Realm</span>
-                <span class="skill-tag">Keychain</span>
-                <span class="skill-tag">SSL Pinning</span>
-                <span class="skill-tag">FaceSDK (C++)</span>
-                <span class="skill-tag">LocalAuthentication</span>
-            </div>
-        </div>
-        <div class="skill-category reveal delay-4">
-            <span class="label">CI/CD &amp; Tools</span>
-            <div class="skills-grid">
-                <span class="skill-tag">ABM / MDM</span>
-                <span class="skill-tag">Fastlane</span>
-                <span class="skill-tag">App Store Connect</span>
-                <span class="skill-tag">GitHub / GitLab</span>
-                <span class="skill-tag">Xcode 15+</span>
-                <span class="skill-tag">Instruments</span>
-                <span class="skill-tag">TestFlight</span>
-            </div>
-        </div>
-
-        <!-- ==============================================================
-        PROFESSIONAL EXPERIENCE
-        - Two main roles: Tawajud Premium Plus (current) and Tawajud Patrol.
-        ============================================================== -->
-        <h2 id="experience" class="reveal delay-1"><i class="fas fa-briefcase"></i> Professional Experience</h2>
-
-        <!-- Tawajud Premium Plus -->
-        <div class="card reveal delay-1">
-            <div class="exp-header">
-                <h3>iOS Developer</h3>
-                <span class="company">Aman Integrated Solutions</span>
-                <span class="date">Nov 2023 – Present</span>
-            </div>
-            <div class="exp-subtitle">Tawajud Premium Plus — B2B Workforce Management &amp; Attendance</div>
-            <div class="tech-stack">SwiftUI · Swift 6 · Firebase · FaceSDK · ABM/MDM</div>
-            <ul>
-                <li><strong>Architecture:</strong> Architected a 50k+ LOC app using SwiftUI, Combine, and Swift 6 concurrency (actors, async/await). Modular MVVM + Clean Architecture with independent Swift packages.</li>
-                <li><strong>Networking:</strong> Generic Repository pattern; REST layer with OAuth 2.0 refresh, exponential back‑off, and typed error mapping.</li>
-                <li><strong>State Management:</strong> Combine + @Observable, batching UI updates to maintain 60 fps.</li>
-                <li><strong>Biometrics &amp; Location:</strong> LocalAuthentication (Face ID/Touch ID) with Keychain PIN fallback; background location with 50m accuracy.</li>
-                <li><strong>WidgetKit:</strong> Live countdown timer widget synced via App Groups showing punch‑in validation, shift duration, and task reports.</li>
-                <li><strong>C++ Bridge (Luxand FaceSDK):</strong> Integrated native C++ library via Objective‑C. Built enrollment, verification (0.995 threshold), passive liveness detection, and real‑time face overlay.</li>
-                <li><strong>Multi‑Target &amp; Distribution:</strong> Maintained multiple B2B targets with `#if` compiler flags. Distributions: App Store, Unlisted, Ad Hoc, ABM/MDM. Automated with Fastlane.</li>
-                <li><strong>Git Workflow:</strong> Feature branching, conflict resolution, interactive rebase, and mandatory PR reviews with CI checks.</li>
-                <li><strong>App Store Checklist:</strong> Instruments profiling (‑35% memory), Privacy Nutrition Label, accessibility, device matrix, app thinning, and 7‑day phased rollouts.</li>
-            </ul>
-        </div>
-
-        <!-- Tawajud Patrol -->
-        <div class="card reveal delay-2">
-            <div class="exp-header">
-                <h3>iOS Developer</h3>
-                <span class="company">Aman Integrated Solutions</span>
-                <span class="date">Apr 2025 – Present</span>
-            </div>
-            <div class="exp-subtitle">Tawajud Patrol — Gate Security &amp; Badge Scanning</div>
-            <div class="tech-stack">SwiftUI · Realm · Firebase · NWPathMonitor · ABM/MDM</div>
-            <ul>
-                <li>Designed a focused QR/barcode scanning app with haptic feedback for high‑volume checkpoints.</li>
-                <li>Offline‑first architecture using Realm; background sync via actor‑based SyncQueue.</li>
-                <li>Custom crash reporter with breadcrumb trails for rapid field triage.</li>
-                <li>Remote Config for runtime rules (intervals, sensitivity) without new builds.</li>
-                <li>Silent MDM distribution via ABM for automatic deployment to guard tablets.</li>
-            </ul>
-        </div>
-
-        <!-- ==============================================================
-        FREELANCE EXPERIENCE
-        - NCircle (Jan–Feb 2024) and Rooba (Jan–Feb 2025).
-        ============================================================== -->
-        <h2 class="reveal delay-1"><i class="fas fa-laptop"></i> Freelance Experience</h2>
-
-        <!-- NCircle -->
-        <div class="card reveal delay-1">
-            <div class="exp-header">
-                <h3>NCircle</h3>
-                <span class="company">International Client (Upwork)</span>
-                <span class="date">Jan – Feb 2024</span>
-            </div>
-            <div class="exp-subtitle">Online Tutoring &amp; Learning Platform</div>
-            <div class="tech-stack">SwiftUI · WebRTC · Firebase · Stripe · Core Data · ReplayKit</div>
-            <ul>
-                <li><strong>Dual‑Role System:</strong> Single SwiftUI codebase for Tutor/Student roles using a role‑aware Coordinator.</li>
-                <li><strong>Architecture:</strong> MVVM + Clean Architecture with 80%+ unit test coverage.</li>
-                <li><strong>Live Video:</strong> WebRTC integration with sub‑300ms connection; whiteboard via SwiftUI Canvas.</li>
-                <li><strong>Screen Sharing:</strong> ReplayKit with broadcast extension piped into WebRTC.</li>
-                <li><strong>Payments &amp; Scheduling:</strong> Stripe PaymentSheet (3D Secure), custom calendar picker, and timezone‑aware FCM reminders.</li>
-            </ul>
-        </div>
-
-        <!-- Rooba -->
-        <div class="card reveal delay-2">
-            <div class="exp-header">
-                <h3>Rooba</h3>
-                <span class="company">International Client (Upwork)</span>
-                <span class="date">Jan – Feb 2025</span>
-            </div>
-            <div class="exp-subtitle">Premium Dating Application</div>
-            <div class="tech-stack">SwiftUI · Swift 6 · Firebase · StoreKit 2 · Core Location · APNS</div>
-            <ul>
-                <li><strong>Geolocation &amp; UI:</strong> Haversine‑based discovery; swipe card interface with spring physics and haptic feedback.</li>
-                <li><strong>Authentication:</strong> Apple &amp; Google Sign‑In with Keychain‑stored tokens.</li>
-                <li><strong>Messaging &amp; Push:</strong> Real‑time Firestore chat with optimistic updates; rich push notifications with deep linking.</li>
-                <li><strong>Monetisation:</strong> StoreKit 2 subscriptions (weekly/monthly/annual) with server‑side entitlement gating.</li>
-                <li><strong>Compliance:</strong> Implemented in‑app account deletion, privacy labels, and zero P0/P1 bugs in TestFlight.</li>
-            </ul>
-        </div>
-
-        <!-- ==============================================================
-        PERSONAL PROJECTS & AGENTIC WORKFLOWS
-        - A list of personal projects, including the new "Shine On You" app.
-        ============================================================== -->
-        <h2 class="reveal delay-1"><i class="fas fa-robot"></i> Personal Projects &amp; Agentic Workflows</h2>
-
-        <!-- AI-Powered CLI Tool -->
-        <div class="card reveal delay-1">
-            <div class="exp-header">
-                <h3>AI-Powered CLI Tool</h3>
-                <span class="company">Personal Project</span>
-            </div>
-            <ul>
-                <li>Built a Swift CLI that integrates with OpenAI/Anthropic APIs to generate boilerplate SwiftUI modules (View, ViewModel, Tests) based on project structure context.</li>
-            </ul>
-        </div>
-
-        <!-- Automated PR Reviewer -->
-        <div class="card reveal delay-2">
-            <div class="exp-header">
-                <h3>Automated PR Reviewer</h3>
-                <span class="company">Personal Project</span>
-            </div>
-            <ul>
-                <li>GitHub Action leveraging Gemini API to review PRs for memory leaks and concurrency pitfalls, reducing review time by ~30%.</li>
-            </ul>
-        </div>
-
-        <!-- SwiftUI Layout Prototyper -->
-        <div class="card reveal delay-3">
-            <div class="exp-header">
-                <h3>SwiftUI Layout Prototyper</h3>
-                <span class="company">Personal Project</span>
-            </div>
-            <ul>
-                <li>Interactive playground using Vision framework that auto‑converts hand‑drawn mockups into primitive SwiftUI components.</li>
-            </ul>
-        </div>
-
-        <!-- Agentic Coding Environment -->
-        <div class="card reveal delay-4">
-            <div class="exp-header">
-                <h3>Agentic Coding Environment</h3>
-                <span class="company">Personal Project</span>
-            </div>
-            <ul>
-                <li>Configured a local Docker/LangChain setup to experiment with agents that suggest accessibility improvements based on Apple's HIG.</li>
-            </ul>
-        </div>
-
-        <!-- Shine On You (Full Detail Card) -->
-        <div class="card reveal delay-1">
-            <div class="exp-header">
-                <h3>Shine On You</h3>
-                <span class="company">Personal Project</span>
-                <span class="date">Live on App Store</span>
-            </div>
-            <div class="exp-subtitle">E‑Commerce Cosmetic App with Real‑Time Tracking &amp; Support</div>
-            <div class="tech-stack">Flutter · Supabase · Agentic Coding · Push Notifications · In‑App Chat</div>
-            <ul>
-                <li>Built entirely using <strong>agentic coding workflows</strong>, leveraging AI to accelerate the development of a fully functional cross‑platform Flutter app.</li>
-                <li>Architected a robust backend using <strong>Supabase</strong> to handle user authentication, product inventory, and real‑time order tracking.</li>
-                <li>Integrated an <strong>in‑app chat system</strong> allowing customers to communicate directly with support staff in real time.</li>
-                <li>Implemented <strong>push notifications</strong> to keep users updated on their order status, delivery milestones, and promotional offers.</li>
-                <li>Developed for a personal friend's cosmetic business; fully live on the <strong>App Store</strong> with a seamless end‑to‑end shopping experience.</li>
-            </ul>
-        </div>
-
-        <!-- ==============================================================
-        CURRENTLY EXPLORING
-        - A list of technologies and topics the developer is learning.
-        ============================================================== -->
-        <h2 class="reveal delay-2"><i class="fas fa-lightbulb"></i> Currently Exploring</h2>
-        <div class="card reveal delay-2">
-            <ul>
-                <li><strong>On‑Device AI:</strong> Apple Foundation Models and Core ML for privacy‑preserving sentiment analysis and translation.</li>
-                <li><strong>VisionOS &amp; Spatial Computing:</strong> Actively learning VisionOS and RealityKit for future enterprise applications.</li>
-                <li><strong>Swift Macros:</strong> Deep dive into macros to automate `Equatable`/`Hashable` conformance and generate type‑safe networking layers.</li>
-                <li><strong>AI‑Driven Testing:</strong> Experimenting with generative AI to auto‑produce XCUITest scripts from user flow recordings.</li>
-            </ul>
-        </div>
-
-        <!-- ==============================================================
-        KEY PROJECTS & APP STORE PRESENCE
-        - Table listing all major apps with tech stack and status.
-        ============================================================== -->
-        <h2 id="projects" class="reveal delay-1"><i class="fas fa-rocket"></i> Key Projects &amp; App Store Presence</h2>
-        <table class="projects-table reveal delay-1">
-            <thead>
-                <tr><th>App</th><th>Tech Stack</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="app-name">Tawajud Premium Plus</td>
-                    <td class="stack">SwiftUI, Swift 6, Combine, Firebase, FaceSDK, ABM/MDM</td>
-                    <td class="status">Live (App Store)</td>
-                </tr>
-                <tr>
-                    <td class="app-name">Tawajud Patrol</td>
-                    <td class="stack">SwiftUI, Realm, Firebase, NWPathMonitor, ABM/MDM</td>
-                    <td class="status">Delivered (B2B)</td>
-                </tr>
-                <tr>
-                    <td class="app-name">NCircle</td>
-                    <td class="stack">SwiftUI, WebRTC, Firebase, Stripe, Core Data</td>
-                    <td class="status">N/A</td>
-                </tr>
-                <tr>
-                    <td class="app-name">Rooba</td>
-                    <td class="stack">SwiftUI, Swift 6, Firebase, StoreKit 2, Core Location</td>
-                    <td class="status">N/A</td>
-                </tr>
-                <tr>
-                    <td class="app-name">Shine On You</td>
-                    <td class="stack">Flutter, Supabase, Push Notifications, Chat</td>
-                    <td class="status">Live (App Store)</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- ==============================================================
-        EDUCATION
-        - BS Computer Science, HSSC, SSC.
-        ============================================================== -->
-        <h2 class="reveal delay-1"><i class="fas fa-graduation-cap"></i> Education</h2>
-        <div class="edu-item reveal delay-1">
-            <h4>BS Computer Science</h4>
-            <p>PMAS Arid Agriculture University | CGPA: 3.08/4.00 | Graduated: 2023</p>
-            <p class="subjects"><strong>Coursework:</strong> Mobile App Dev, InfoSec, AI, Software Engineering, DBMS, OOP, DSA.</p>
-        </div>
-        <div class="edu-item reveal delay-2">
-            <h4>HSSC (Intermediate)</h4>
-            <p>Board of Intermediate, Rawalpindi | 569/1100 (Grade C) | 2019</p>
-            <p class="subjects">English, Urdu, Mathematics, Physics, Computer Science, Islamic Education, Pakistan Studies</p>
-        </div>
-        <div class="edu-item reveal delay-3">
-            <h4>SSC (Matriculation)</h4>
-            <p>Board of Intermediate, Rawalpindi | 736/1100 (Grade B) | 2017</p>
-            <p class="subjects">English, Urdu, Mathematics, Physics, Chemistry, Computer Science, Islamiyat, Pakistan Studies</p>
-        </div>
-
-        <!-- ==============================================================
-        SOFT SKILLS
-        - Horizontal list of soft skills with check icons.
-        ============================================================== -->
-        <h2 class="reveal delay-1"><i class="fas fa-users"></i> Soft Skills</h2>
-        <div class="soft-skills-container reveal delay-1">
-            <span><i class="fas fa-check-circle"></i> Clear technical communication</span>
-            <span><i class="fas fa-check-circle"></i> Passionate about agentic coding (vibe coding)</span>
-            <span><i class="fas fa-check-circle"></i> AI Tools: Claude, Kimi, Gemini, DeepSeek</span>
-            <span><i class="fas fa-check-circle"></i> Focus on problem solving over code lines</span>
-            <span><i class="fas fa-check-circle"></i> Agile / Scrum practitioner</span>
-            <span><i class="fas fa-check-circle"></i> Self‑directed learner &amp; WWDC enthusiast</span>
-            <span><i class="fas fa-check-circle"></i> High code quality (SwiftLint, DocC)</span>
-            <span><i class="fas fa-check-circle"></i> Collaborative reviewer &amp; mentor</span>
-        </div>
-
-        <!-- ==============================================================
-        FOOTER
-        - Three columns: Brand, Contact, Social Links.
-        ============================================================== -->
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <!-- Column 1: Brand & Location -->
-                    <div class="footer-col">
-                        <h4>Sarmad Dawood</h4>
-                        <p class="footer-tagline">iOS Developer &amp; SwiftUI Specialist</p>
-                        <p><i class="fas fa-map-marker-alt"></i> Rawalpindi, Pakistan</p>
+            <!-- Highlight cards -->
+            <div class="about-highlights">
+                <div class="highlight-card reveal d2">
+                    <div class="highlight-icon blue"><i class="fas fa-mobile-alt"></i></div>
+                    <div>
+                        <div class="highlight-label">Primary Stack</div>
+                        <div class="highlight-value">Swift 6 · SwiftUI · UIKit · Combine</div>
                     </div>
-                    
-                    <!-- Column 2: Direct Contact -->
-                    <div class="footer-col">
-                        <h4>Contact</h4>
-                        <a href="mailto:sarmaddawood66@gmail.com"><i class="fas fa-envelope"></i> sarmaddawood66@gmail.com</a>
-                        <a href="tel:+923075386948"><i class="fas fa-phone-alt"></i> (+92) 307-5386948</a>
+                </div>
+                <div class="highlight-card reveal d3">
+                    <div class="highlight-icon purple"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <div class="highlight-label">Passion</div>
+                        <div class="highlight-value">Agentic Coding &amp; AI-Driven Workflows</div>
                     </div>
-                    
-                    <!-- Column 3: Social Links -->
-                    <div class="footer-col">
-                        <h4>Connect</h4>
-                        <div class="social-links">
-                            <a href="https://www.linkedin.com/in/sarmad-dawood-992556177/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                            <a href="https://github.com/sarmaddawood" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                        </div>
+                </div>
+                <div class="highlight-card reveal d4">
+                    <div class="highlight-icon green"><i class="fas fa-layer-group"></i></div>
+                    <div>
+                        <div class="highlight-label">Architecture</div>
+                        <div class="highlight-value">MVVM + Clean Arch · Repository · DI</div>
+                    </div>
+                </div>
+                <div class="highlight-card reveal d5">
+                    <div class="highlight-icon orange"><i class="fas fa-rocket"></i></div>
+                    <div>
+                        <div class="highlight-label">Speciality</div>
+                        <div class="highlight-value">B2B · ABM/MDM · App Store Distribution</div>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
     </div>
+</section>
 
-    <!-- ==============================================================
-    JAVASCRIPT
-    - Preloader: hides the preloader after the page loads.
-    - Scroll Reveal: uses IntersectionObserver to animate elements on scroll.
-    ============================================================== -->
-    <script>
-        // PRELOADER: hide after load
-        window.addEventListener('load', function() {
-            const preloader = document.getElementById('preloader');
-            preloader.classList.add('hidden');
-            setTimeout(() => { preloader.style.display = 'none'; }, 600);
+<!-- ============================================================
+     SKILLS
+============================================================ -->
+<section id="skills" class="section-wrapper" style="padding-top:0;">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-label">Expertise</div>
+            <h2 class="section-title">Technical Skills</h2>
+        </div>
+
+        <div class="skills-layout" style="margin-top: 40px;">
+
+            <div class="glass-card skills-group reveal d1">
+                <div class="skills-group-header">
+                    <div class="skills-group-icon blue" style="background:rgba(41,151,255,0.12); color:var(--accent);">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <span class="skills-group-name">Languages &amp; Core</span>
+                </div>
+                <div class="skills-pills">
+                    <span class="pill accent">Swift 6</span>
+                    <span class="pill accent">Swift 5.9</span>
+                    <span class="pill">Objective-C</span>
+                    <span class="pill">C++ (bridge)</span>
+                </div>
+            </div>
+
+            <div class="glass-card skills-group reveal d2">
+                <div class="skills-group-header">
+                    <div class="skills-group-icon" style="background:rgba(191,90,242,0.12); color:var(--purple);">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <span class="skills-group-name">UI &amp; Architecture</span>
+                </div>
+                <div class="skills-pills">
+                    <span class="pill purple">SwiftUI</span>
+                    <span class="pill purple">UIKit</span>
+                    <span class="pill">Combine</span>
+                    <span class="pill">MVVM + Clean Arch</span>
+                    <span class="pill">Coordinator Pattern</span>
+                    <span class="pill">Repository Pattern</span>
+                    <span class="pill">Dependency Injection</span>
+                </div>
+            </div>
+
+            <div class="glass-card skills-group reveal d3">
+                <div class="skills-group-header">
+                    <div class="skills-group-icon" style="background:rgba(48,209,88,0.12); color:var(--green);">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <span class="skills-group-name">Backend, Data &amp; Security</span>
+                </div>
+                <div class="skills-pills">
+                    <span class="pill green">Firebase</span>
+                    <span class="pill">REST APIs</span>
+                    <span class="pill">Core Data</span>
+                    <span class="pill">SwiftData</span>
+                    <span class="pill">Realm</span>
+                    <span class="pill">Keychain</span>
+                    <span class="pill">SSL Pinning</span>
+                    <span class="pill">FaceSDK (C++)</span>
+                    <span class="pill">LocalAuthentication</span>
+                </div>
+            </div>
+
+            <div class="glass-card skills-group reveal d4">
+                <div class="skills-group-header">
+                    <div class="skills-group-icon" style="background:rgba(255,159,10,0.12); color:var(--orange);">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <span class="skills-group-name">CI/CD &amp; Tooling</span>
+                </div>
+                <div class="skills-pills">
+                    <span class="pill">ABM / MDM</span>
+                    <span class="pill">Fastlane</span>
+                    <span class="pill">App Store Connect</span>
+                    <span class="pill">GitHub / GitLab</span>
+                    <span class="pill">Xcode 15+</span>
+                    <span class="pill">Instruments</span>
+                    <span class="pill">TestFlight</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCE
+============================================================ -->
+<section id="experience" class="section-wrapper" style="padding-top:0;">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-label">Career</div>
+            <h2 class="section-title">Professional Experience</h2>
+        </div>
+
+        <div class="experience-layout" style="margin-top: 40px;">
+
+            <!-- Category: Full-Time -->
+            <div class="exp-category-label reveal">Full-Time</div>
+
+            <!-- Tawajud Premium Plus -->
+            <div class="glass-card exp-card reveal d1">
+                <div class="exp-card-header">
+                    <div>
+                        <div class="exp-role">iOS Developer</div>
+                        <div class="exp-company">Aman Integrated Solutions</div>
+                    </div>
+                    <div class="exp-date">Nov 2023 – Present</div>
+                </div>
+                <div class="exp-app">Tawajud Premium Plus — B2B Workforce Management &amp; Attendance</div>
+                <div class="exp-stack">
+                    <span class="stack-tag">SwiftUI</span>
+                    <span class="stack-tag">Swift 6</span>
+                    <span class="stack-tag">Firebase</span>
+                    <span class="stack-tag">FaceSDK</span>
+                    <span class="stack-tag">ABM/MDM</span>
+                    <span class="stack-tag">Combine</span>
+                </div>
+                <ul class="exp-list">
+                    <li><strong>Architecture:</strong> Architected a 50k+ LOC app using SwiftUI, Combine, and Swift 6 concurrency (actors, async/await). Modular MVVM + Clean Architecture with independent Swift packages.</li>
+                    <li><strong>Networking:</strong> Generic Repository pattern; REST layer with OAuth 2.0 refresh, exponential back-off, and typed error mapping.</li>
+                    <li><strong>State Management:</strong> Combine + @Observable, batching UI updates to maintain 60 fps across all device tiers.</li>
+                    <li><strong>Biometrics &amp; Location:</strong> LocalAuthentication (Face ID/Touch ID) with Keychain PIN fallback; background location with 50m accuracy.</li>
+                    <li><strong>WidgetKit:</strong> Live countdown timer widget synced via App Groups, showing punch-in validation, shift duration, and task reports.</li>
+                    <li><strong>C++ Bridge (Luxand FaceSDK):</strong> Integrated native C++ library via Objective-C bridge. Built enrollment, verification (0.995 threshold), passive liveness detection, and real-time face overlay.</li>
+                    <li><strong>Multi-Target &amp; Distribution:</strong> Maintained multiple B2B targets with <code>#if</code> compiler flags. Distributions: App Store, Unlisted, Ad Hoc, ABM/MDM. Automated with Fastlane.</li>
+                    <li><strong>Performance:</strong> Instruments profiling delivering −35% memory, Privacy Nutrition Label, accessibility, device matrix, app thinning, and 7-day phased rollouts.</li>
+                </ul>
+            </div>
+
+            <!-- Tawajud Patrol -->
+            <div class="glass-card exp-card reveal d2">
+                <div class="exp-card-header">
+                    <div>
+                        <div class="exp-role">iOS Developer</div>
+                        <div class="exp-company">Aman Integrated Solutions</div>
+                    </div>
+                    <div class="exp-date">Apr 2025 – Present</div>
+                </div>
+                <div class="exp-app">Tawajud Patrol — Gate Security &amp; Badge Scanning</div>
+                <div class="exp-stack">
+                    <span class="stack-tag">SwiftUI</span>
+                    <span class="stack-tag">Realm</span>
+                    <span class="stack-tag">Firebase</span>
+                    <span class="stack-tag">NWPathMonitor</span>
+                    <span class="stack-tag">ABM/MDM</span>
+                </div>
+                <ul class="exp-list">
+                    <li>Designed a focused QR/barcode scanning app with haptic feedback optimised for high-volume security checkpoints.</li>
+                    <li>Offline-first architecture using Realm; background sync via actor-based SyncQueue for guaranteed delivery.</li>
+                    <li>Custom crash reporter with breadcrumb trails for rapid field triage without Crashlytics dependency.</li>
+                    <li>Remote Config for runtime rule updates (intervals, sensitivity thresholds) without requiring new builds.</li>
+                    <li>Silent MDM distribution via ABM for automatic deployment to guard tablets across facilities.</li>
+                </ul>
+            </div>
+
+            <!-- Category: Freelance -->
+            <div class="exp-category-label reveal" style="margin-top:16px;">Freelance</div>
+
+            <!-- NCircle -->
+            <div class="glass-card exp-card reveal d1">
+                <div class="exp-card-header">
+                    <div>
+                        <div class="exp-role">NCircle</div>
+                        <div class="exp-company">International Client (Upwork)</div>
+                    </div>
+                    <div class="exp-date">Jan – Feb 2024</div>
+                </div>
+                <div class="exp-app">Online Tutoring &amp; Learning Platform</div>
+                <div class="exp-stack">
+                    <span class="stack-tag">SwiftUI</span>
+                    <span class="stack-tag">WebRTC</span>
+                    <span class="stack-tag">Firebase</span>
+                    <span class="stack-tag">Stripe</span>
+                    <span class="stack-tag">Core Data</span>
+                    <span class="stack-tag">ReplayKit</span>
+                </div>
+                <ul class="exp-list">
+                    <li><strong>Dual-Role System:</strong> Single SwiftUI codebase serving Tutor/Student roles via a role-aware Coordinator.</li>
+                    <li><strong>Architecture:</strong> MVVM + Clean Architecture with 80%+ unit test coverage.</li>
+                    <li><strong>Live Video:</strong> WebRTC integration with sub-300ms connection; shared whiteboard via SwiftUI Canvas.</li>
+                    <li><strong>Screen Sharing:</strong> ReplayKit with broadcast extension piped into WebRTC stream.</li>
+                    <li><strong>Payments &amp; Scheduling:</strong> Stripe PaymentSheet (3D Secure), custom calendar picker, timezone-aware FCM reminders.</li>
+                </ul>
+            </div>
+
+            <!-- Rooba -->
+            <div class="glass-card exp-card reveal d2">
+                <div class="exp-card-header">
+                    <div>
+                        <div class="exp-role">Rooba</div>
+                        <div class="exp-company">International Client (Upwork)</div>
+                    </div>
+                    <div class="exp-date">Jan – Feb 2025</div>
+                </div>
+                <div class="exp-app">Premium Dating Application</div>
+                <div class="exp-stack">
+                    <span class="stack-tag">SwiftUI</span>
+                    <span class="stack-tag">Swift 6</span>
+                    <span class="stack-tag">Firebase</span>
+                    <span class="stack-tag">StoreKit 2</span>
+                    <span class="stack-tag">Core Location</span>
+                    <span class="stack-tag">APNS</span>
+                </div>
+                <ul class="exp-list">
+                    <li><strong>Geolocation &amp; UI:</strong> Haversine-based discovery; swipe card interface with spring physics and haptic feedback.</li>
+                    <li><strong>Authentication:</strong> Apple &amp; Google Sign-In with Keychain-stored tokens and secure refresh flow.</li>
+                    <li><strong>Messaging &amp; Push:</strong> Real-time Firestore chat with optimistic updates; rich push notifications with deep linking.</li>
+                    <li><strong>Monetisation:</strong> StoreKit 2 subscriptions (weekly/monthly/annual) with server-side entitlement gating.</li>
+                    <li><strong>Compliance:</strong> In-app account deletion, privacy labels, and zero P0/P1 bugs across entire TestFlight cycle.</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     KEY PROJECTS
+============================================================ -->
+<section id="projects" class="section-wrapper" style="padding-top:0;">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-label">Portfolio</div>
+            <h2 class="section-title">Key Projects &amp;<br>App Store Presence</h2>
+        </div>
+
+        <div class="projects-grid" style="margin-top: 40px;">
+
+            <div class="glass-card project-card reveal d1">
+                <div class="project-card-top">
+                    <div class="project-icon"><i class="fas fa-user-check" style="color:var(--accent);"></i></div>
+                    <span class="project-status status-live">Live · App Store</span>
+                </div>
+                <div class="project-name">Tawajud Premium Plus</div>
+                <div class="project-desc">Enterprise workforce management &amp; attendance app with face biometrics, live widgets, and multi-target B2B distribution.</div>
+                <div class="project-stack">
+                    <span>SwiftUI</span><span>Swift 6</span><span>Firebase</span><span>FaceSDK</span><span>ABM/MDM</span>
+                </div>
+            </div>
+
+            <div class="glass-card project-card reveal d2">
+                <div class="project-card-top">
+                    <div class="project-icon"><i class="fas fa-qrcode" style="color:var(--orange);"></i></div>
+                    <span class="project-status status-b2b">Delivered · B2B</span>
+                </div>
+                <div class="project-name">Tawajud Patrol</div>
+                <div class="project-desc">Gate security &amp; badge scanning app with offline-first Realm architecture, silent MDM deployment to guard tablets.</div>
+                <div class="project-stack">
+                    <span>SwiftUI</span><span>Realm</span><span>Firebase</span><span>ABM/MDM</span>
+                </div>
+            </div>
+
+            <div class="glass-card project-card reveal d3">
+                <div class="project-card-top">
+                    <div class="project-icon"><i class="fas fa-chalkboard-teacher" style="color:var(--purple);"></i></div>
+                    <span class="project-status status-na">Freelance</span>
+                </div>
+                <div class="project-name">NCircle</div>
+                <div class="project-desc">Live tutoring platform with WebRTC video, shared Canvas whiteboard, ReplayKit screen-sharing, and Stripe payments.</div>
+                <div class="project-stack">
+                    <span>SwiftUI</span><span>WebRTC</span><span>Stripe</span><span>Firebase</span>
+                </div>
+            </div>
+
+            <div class="glass-card project-card reveal d4">
+                <div class="project-card-top">
+                    <div class="project-icon"><i class="fas fa-heart" style="color:#ff453a;"></i></div>
+                    <span class="project-status status-na">Freelance</span>
+                </div>
+                <div class="project-name">Rooba</div>
+                <div class="project-desc">Premium dating app with physics-based swipe UI, StoreKit 2 subscriptions, real-time Firestore chat, and Apple Sign-In.</div>
+                <div class="project-stack">
+                    <span>SwiftUI</span><span>Swift 6</span><span>StoreKit 2</span><span>Firebase</span>
+                </div>
+            </div>
+
+            <div class="glass-card project-card reveal d5">
+                <div class="project-card-top">
+                    <div class="project-icon"><i class="fas fa-spa" style="color:var(--green);"></i></div>
+                    <span class="project-status status-live">Live · App Store</span>
+                </div>
+                <div class="project-name">Shine On You</div>
+                <div class="project-desc">E-commerce cosmetic app built with agentic coding workflows. Real-time order tracking, in-app chat, and push notifications on Supabase.</div>
+                <div class="project-stack">
+                    <span>Flutter</span><span>Supabase</span><span>Push Notifs</span><span>In-App Chat</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PERSONAL PROJECTS & AGENTIC WORKFLOWS
+============================================================ -->
+<section class="section-wrapper" style="padding-top:0;">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-label">Side Projects</div>
+            <h2 class="section-title">Personal Projects &amp;<br>Agentic Workflows</h2>
+        </div>
+
+        <div class="agentic-grid" style="margin-top: 40px;">
+
+            <div class="glass-card agentic-card reveal d1">
+                <div class="agentic-card-icon" style="background:rgba(41,151,255,0.12); color:var(--accent);">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <div class="agentic-card-title">AI-Powered CLI Tool</div>
+                <div class="agentic-card-desc">A Swift CLI that integrates with OpenAI/Anthropic APIs to generate boilerplate SwiftUI modules (View, ViewModel, Tests) based on project structure context — cutting module setup from 20 minutes to seconds.</div>
+            </div>
+
+            <div class="glass-card agentic-card reveal d2">
+                <div class="agentic-card-icon" style="background:rgba(48,209,88,0.12); color:var(--green);">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="agentic-card-title">Automated PR Reviewer</div>
+                <div class="agentic-card-desc">GitHub Action leveraging the Gemini API to review PRs for memory leaks and concurrency pitfalls. Reduced code review turnaround by ~30% across the team.</div>
+            </div>
+
+            <div class="glass-card agentic-card reveal d3">
+                <div class="agentic-card-icon" style="background:rgba(191,90,242,0.12); color:var(--purple);">
+                    <i class="fas fa-drafting-compass"></i>
+                </div>
+                <div class="agentic-card-title">SwiftUI Layout Prototyper</div>
+                <div class="agentic-card-desc">Interactive playground using Apple's Vision framework that auto-converts hand-drawn mockups captured by camera into primitive SwiftUI component code.</div>
+            </div>
+
+            <div class="glass-card agentic-card reveal d4">
+                <div class="agentic-card-icon" style="background:rgba(255,159,10,0.12); color:var(--orange);">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="agentic-card-title">Agentic Coding Environment</div>
+                <div class="agentic-card-desc">Local Docker/LangChain setup to experiment with agents that suggest accessibility improvements based on Apple's Human Interface Guidelines, running as a pre-commit check.</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CURRENTLY EXPLORING
+============================================================ -->
+<section class="section-wrapper" style="padding-top:0;">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-label">Learning</div>
+            <h2 class="section-title">Currently Exploring</h2>
+        </div>
+
+        <div class="exploring-list reveal" style="margin-top:40px;">
+
+            <div class="exploring-item">
+                <div class="exploring-item-icon" style="background:rgba(41,151,255,0.12); color:var(--accent);">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="exploring-item-content">
+                    <div class="exploring-item-title">On-Device AI</div>
+                    <div class="exploring-item-desc">Apple Foundation Models and Core ML for privacy-preserving sentiment analysis and on-device translation.</div>
+                </div>
+                <div class="exploring-item-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+            <div class="exploring-item">
+                <div class="exploring-item-icon" style="background:rgba(191,90,242,0.12); color:var(--purple);">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <div class="exploring-item-content">
+                    <div class="exploring-item-title">VisionOS &amp; Spatial Computing</div>
+                    <div class="exploring-item-desc">Actively learning VisionOS and RealityKit for future enterprise spatial computing applications.</div>
+                </div>
+                <div class="exploring-item-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+            <div class="exploring-item">
+                <div class="exploring-item-icon" style="background:rgba(48,209,88,0.12); color:var(--green);">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <div class="exploring-item-content">
+                    <div class="exploring-item-title">Swift Macros</div>
+                    <div class="exploring-item-desc">Deep dive into macros to automate Equatable/Hashable conformance and generate type-safe networking layers at compile time.</div>
+                </div>
+                <div class="exploring-item-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+            <div class="exploring-item">
+                <div class="exploring-item-icon" style="background:rgba(255,159,10,0.12); color:var(--orange);">
+                    <i class="fas fa-vial"></i>
+                </div>
+                <div class="exploring-item-content">
+                    <div class="exploring-item-title">AI-Driven Testing</div>
+                    <div class="exploring-item-desc">Experimenting with generative AI to auto-produce XCUITest scripts from user flow recordings.</div>
+                </div>
+                <div class="exploring-item-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     EDUCATION
+============================================================ -->
+<section id="education" class="section-wrapper" style="padding-top:0;">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-label">Education</div>
+            <h2 class="section-title">Academic Background</h2>
+        </div>
+
+        <div class="edu-list" style="margin-top:40px;">
+
+            <div class="glass-card edu-card reveal d1">
+                <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="edu-content">
+                    <div class="edu-degree">BS Computer Science</div>
+                    <div class="edu-meta">PMAS Arid Agriculture University &nbsp;·&nbsp; CGPA: 3.08 / 4.00 &nbsp;·&nbsp; Graduated 2023</div>
+                    <div class="edu-subjects">Mobile App Dev &nbsp;·&nbsp; InfoSec &nbsp;·&nbsp; AI &nbsp;·&nbsp; Software Engineering &nbsp;·&nbsp; DBMS &nbsp;·&nbsp; OOP &nbsp;·&nbsp; DSA</div>
+                </div>
+                <div class="edu-badge">3.08 GPA</div>
+            </div>
+
+            <div class="glass-card edu-card reveal d2">
+                <div class="edu-icon"><i class="fas fa-school"></i></div>
+                <div class="edu-content">
+                    <div class="edu-degree">HSSC — Intermediate</div>
+                    <div class="edu-meta">Board of Intermediate, Rawalpindi &nbsp;·&nbsp; 569 / 1100 &nbsp;·&nbsp; 2019</div>
+                    <div class="edu-subjects">Mathematics &nbsp;·&nbsp; Physics &nbsp;·&nbsp; Computer Science &nbsp;·&nbsp; English &nbsp;·&nbsp; Urdu</div>
+                </div>
+                <div class="edu-badge">Grade C</div>
+            </div>
+
+            <div class="glass-card edu-card reveal d3">
+                <div class="edu-icon"><i class="fas fa-book"></i></div>
+                <div class="edu-content">
+                    <div class="edu-degree">SSC — Matriculation</div>
+                    <div class="edu-meta">Board of Intermediate, Rawalpindi &nbsp;·&nbsp; 736 / 1100 &nbsp;·&nbsp; 2017</div>
+                    <div class="edu-subjects">Mathematics &nbsp;·&nbsp; Physics &nbsp;·&nbsp; Chemistry &nbsp;·&nbsp; Computer Science &nbsp;·&nbsp; English &nbsp;·&nbsp; Urdu</div>
+                </div>
+                <div class="edu-badge">Grade B</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SOFT SKILLS
+============================================================ -->
+<section class="section-wrapper" style="padding-top:0;">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-label">Character</div>
+            <h2 class="section-title">Soft Skills</h2>
+        </div>
+
+        <div class="soft-skills-grid" style="margin-top:40px;">
+            <div class="soft-skill-item reveal d1"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">Clear technical communication</span></div>
+            <div class="soft-skill-item reveal d2"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">Passionate about agentic coding (vibe coding)</span></div>
+            <div class="soft-skill-item reveal d3"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">AI Tools: Claude, Kimi, Gemini, DeepSeek</span></div>
+            <div class="soft-skill-item reveal d4"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">Focus on problem solving over code volume</span></div>
+            <div class="soft-skill-item reveal d1"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">Agile / Scrum practitioner</span></div>
+            <div class="soft-skill-item reveal d2"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">Self-directed learner &amp; WWDC enthusiast</span></div>
+            <div class="soft-skill-item reveal d3"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">High code quality (SwiftLint, DocC)</span></div>
+            <div class="soft-skill-item reveal d4"><i class="fas fa-check-circle soft-skill-check"></i><span class="soft-skill-text">Collaborative reviewer &amp; mentor</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand-name">Sarmad Dawood</div>
+                <div class="footer-brand-role">iOS Developer &amp; SwiftUI Specialist</div>
+                <div class="footer-location">
+                    <i class="fas fa-map-marker-alt" style="color:var(--accent); font-size:0.75rem;"></i>
+                    Rawalpindi, Pakistan
+                </div>
+            </div>
+            <div>
+                <div class="footer-col-title">Contact</div>
+                <div class="footer-links">
+                    <a href="mailto:sarmaddawood66@gmail.com">
+                        <i class="fas fa-envelope"></i>
+                        sarmaddawood66@gmail.com
+                    </a>
+                    <a href="tel:+923075386948">
+                        <i class="fas fa-phone-alt"></i>
+                        (+92) 307-5386948
+                    </a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-col-title">Connect</div>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/in/sarmad-dawood-992556177/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/sarmaddawood" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:sarmaddawood66@gmail.com" class="social-btn" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">&copy; 2026 Sarmad Dawood. All rights reserved.</div>
+            <div class="footer-made">Crafted with <span class="heart">&#9829;</span>&nbsp;and Swift precision</div>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+/* -----------------------------------------------------------
+   HERO TYPEWRITER — types "Sarmad Dawood" into .gradient-text
+   after the h1 fade-up animation completes, then blinks the
+   cursor briefly before fading it out.
+----------------------------------------------------------- */
+(function () {
+    // Ambient lights on immediately — no preloader blocking them
+    document.getElementById('amb1').style.opacity = '1';
+    document.getElementById('amb2').style.opacity = '1';
+    document.getElementById('amb3').style.opacity = '1';
+
+    var nameEl  = document.getElementById('heroName');
+    var cursor  = document.getElementById('heroCursor');
+    var NAME    = 'Sarmad Dawood';
+    var DELAY   = 68; // ms per character — natural pace, not rushed
+
+    // Start typing after the h1 fade-up completes (0.4s delay + 0.7s duration = 1.1s)
+    // Add a small extra buffer so the title is fully visible before name begins
+    var START_AFTER = 1200; // ms
+
+
+    function typewriter() {
+        var i = 0;
+        function next() {
+            if (i < NAME.length) {
+                nameEl.textContent += NAME[i];
+                i++;
+                // Vary delay slightly for organic feel: consonants slightly faster
+                var jitter = Math.random() * 20 - 10; // ±10ms
+                setTimeout(next, DELAY + jitter);
+            } else {
+                // Typing done — stop blinking and fade cursor out immediately
+                cursor.style.animation = 'none';
+                cursor.style.opacity   = '0';
+            }
+        }
+        setTimeout(next, START_AFTER);
+    }
+
+    // Run as soon as DOM is ready (script is at end of body so it's already ready)
+    typewriter();
+})();
+
+/* -----------------------------------------------------------
+   NAVIGATION — scroll spy + sticky shrink
+----------------------------------------------------------- */
+(function() {
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(a => a.classList.remove('active'));
+                const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+                if (link) link.classList.add('active');
+            }
         });
+    }, { threshold: 0.4 });
+    sections.forEach(s => observer.observe(s));
+})();
 
-        // SCROLL REVEAL: apply .active to .reveal elements when they enter viewport
-        const revealElements = document.querySelectorAll('.reveal:not(.active)');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+/* -----------------------------------------------------------
+   MOBILE MENU
+----------------------------------------------------------- */
+(function() {
+    const btn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('navDrawer');
+    let open = false;
 
-        revealElements.forEach(el => observer.observe(el));
-    </script>
+    btn.addEventListener('click', () => {
+        open = !open;
+        drawer.classList.toggle('open', open);
+        btn.innerHTML = open
+            ? '<i class="fas fa-times"></i>'
+            : '<i class="fas fa-bars"></i>';
+    });
+
+    drawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            open = false;
+            drawer.classList.remove('open');
+            btn.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+    });
+})();
+
+/* -----------------------------------------------------------
+   SCROLL REVEAL
+----------------------------------------------------------- */
+(function() {
+    const targets = document.querySelectorAll('.reveal, .reveal-left, .reveal-scale');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach(el => io.observe(el));
+})();
+
+/* -----------------------------------------------------------
+   CURSOR GLOW
+----------------------------------------------------------- */
+(function() {
+    const glow = document.getElementById('cursorGlow');
+    if (!glow) return;
+    window.addEventListener('mousemove', (e) => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+    }, { passive: true });
+})();
+
+/* -----------------------------------------------------------
+   STAT COUNTER ANIMATION
+----------------------------------------------------------- */
+(function() {
+    const stats = document.querySelectorAll('.stat-number');
+    const targets = [3, 7, 7, 50];
+    const suffixes = ['+', '+', '+', 'k+'];
+    let animated = false;
+
+    const runCounters = () => {
+        if (animated) return;
+        animated = true;
+        stats.forEach((el, i) => {
+            const end = targets[i];
+            const suffix = suffixes[i];
+            let current = 0;
+            const step = Math.ceil(end / 30);
+            const timer = setInterval(() => {
+                current = Math.min(current + step, end);
+                el.textContent = current + suffix;
+                if (current >= end) clearInterval(timer);
+            }, 40);
+        });
+    };
+
+    const heroSection = document.getElementById('hero');
+    const io = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) runCounters();
+    }, { threshold: 0.5 });
+    if (heroSection) io.observe(heroSection);
+})();
+
+/* -----------------------------------------------------------
+   GLASSMORPHISM TILT on exp cards (subtle)
+----------------------------------------------------------- */
+(function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `translateY(-3px) rotateX(${-y * 3}deg) rotateY(${x * 3}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+})();
+</script>
 </body>
 </html>
