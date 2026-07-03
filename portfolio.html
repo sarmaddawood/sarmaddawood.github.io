@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarmad Dawood – iOS Developer Portfolio</title>
+    
+    <!-- ==============================================================
+    FONTS: Space Grotesk (headings) and Inter (body text)
+    Space Grotesk gives the Aeonik-style geometric feel; Inter is clean and readable.
+    ============================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 (icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ==============================================================
+               GLOBAL RESET & BASE STYLES
+               - Resets margins/paddings, sets box-sizing, defines the color palette.
+               - All colors come from the Aeonik reference: #F8F8F8 (background),
+                 #222222 (primary text), #7B7B7B (secondary text), #FFFFFF (cards).
+               ============================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: #F8F8F8;
+            font-family: 'Inter', sans-serif;
+            color: #222222;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul, li { list-style: none; padding: 0; margin: 0; }
+
+        /* ==============================================================
+               PRELOADER
+               - Shows a spinning loader while the page loads.
+               - Hidden via JavaScript after load.
+               ============================================================== */
+        #preloader {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #F8F8F8;
+            display: flex; align-items: center; justify-content: center;
+            gap: 16px;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        #preloader.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; }
+        .loader-spinner {
+            width: 32px; height: 32px;
+            border: 3px solid #E5E5E5;
+            border-top-color: #222222;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-text {
+            font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+            color: #222222; letter-spacing: 2px; font-size: 0.85rem;
+        }
+
+        /* ==============================================================
+               MAIN CONTAINER
+               - Centers content with a max-width of 1280px.
+               - Provides consistent horizontal padding.
+               ============================================================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        /* ==============================================================
+               HEADER / NAVIGATION
+               - Sticky (no sticky here, just fixed at the top) – actually not sticky,
+                 but follows the Aeonik minimalist style.
+               - Brand name on left, navigation links on right.
+               - Contains contact links (Email, Phone, LinkedIn, GitHub) and a "Book A Call" CTA.
+               ============================================================== */
+        header {
+            padding: 24px 0;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #E5E5E5;
+            margin-bottom: 20px;
+        }
+        header .brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600; font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            color: #222222;
+        }
+        header .nav-links {
+            display: flex; align-items: center; gap: 16px;
+        }
+        header .nav-links a {
+            font-size: 0.85rem; font-weight: 500; color: #7B7B7B;
+            transition: color 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        header .nav-links a:hover { color: #222222; }
+        /* Vertical divider between contact links and navigation links */
+        header .nav-links .divider {
+            width: 1px; height: 24px; background: #E5E5E5;
+        }
+        /* Call-to-action button */
+        header .nav-links .btn-cta {
+            background: #222222; color: #FFFFFF;
+            padding: 10px 24px; border-radius: 40px; font-weight: 500;
+            transition: background 0.2s;
+        }
+        header .nav-links .btn-cta:hover { background: #444444; color: #FFFFFF; }
+
+        /* ==============================================================
+               SCROLL REVEAL ANIMATIONS
+               - Used by IntersectionObserver to fade and slide up elements on scroll.
+               - .reveal is the base class; .active is added when element enters viewport.
+               - Delay classes create staggered effects.
+               ============================================================== */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* ==============================================================
+               TYPOGRAPHY
+               - Headings use Space Grotesk for the geometric Aeonik look.
+               - h2 is used for section titles with a bottom border.
+               ============================================================== */
+        h1, h2, h3, h4, .hero-stats, .scroll-indicator {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+        h2 {
+            font-size: 2.8rem; font-weight: 500; color: #222222;
+            margin: 60px 0 30px; 
+            border-bottom: 1px solid #E5E5E5; padding-bottom: 20px;
+        }
+
+        /* ==============================================================
+               HERO SECTION
+               - Centered, with a large heading, subtitle, and stats.
+               - No image; the design is text-focused.
+               ============================================================== */
+        .hero {
+            display: flex;
+            padding: 20px 0 60px;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-left {
+            flex: 1;
+            max-width: 900px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .hero-stats {
+            display: flex; justify-content: center; gap: 32px;
+            font-size: 0.9rem; font-weight: 500; color: #7B7B7B;
+            margin-bottom: 40px;
+        }
+        .hero-stats span { display: flex; align-items: baseline; gap: 4px; }
+        .hero-stats strong { color: #222222; font-size: 1.1rem; font-weight: 600; }
+        .hero-left h1 {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 300;
+            line-height: 1.05;
+            color: #222222;
+            margin-bottom: 8px;
+        }
+        .hero-left .subtitle {
+            font-size: 1.2rem; font-weight: 400; color: #7B7B7B;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+        .scroll-indicator {
+            font-size: 0.8rem; color: #7B7B7B; font-weight: 500;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+
+        /* ==============================================================
+               CARDS
+               - Used for About, Experience, Personal Projects, Exploring.
+               - White background, light border, soft shadow, hover lift.
+               ============================================================== */
+        .card {
+            background: #FFFFFF; border-radius: 16px; padding: 28px 32px;
+            border: 1px solid #E5E5E5; 
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+        .card:hover { border-color: #7B7B7B; transform: translateY(-2px); }
+
+        /* ==============================================================
+               ABOUT SECTION
+               - Simple text card with a strong introductory statement.
+               ============================================================== */
+        .about-card p { text-align: justify; font-size: 1rem; color: #444; }
+        .about-card strong { color: #222222; font-weight: 600; }
+
+        /* ==============================================================
+               SKILLS (PILL TAGS)
+               - Grouped by category. Each tag is a rounded pill.
+               - Hover effect changes border color and lifts slightly.
+               ============================================================== */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .skill-tag {
+            background: #F8F8F8; color: #222222;
+            padding: 6px 18px; border-radius: 40px;
+            font-size: 0.8rem; font-weight: 500;
+            border: 1px solid #E5E5E5;
+            transition: 0.2s; cursor: default;
+        }
+        .skill-tag:hover { background: #FFFFFF; border-color: #7B7B7B; }
+        .skill-category { margin-bottom: 28px; }
+        .skill-category .label {
+            font-size: 0.75rem; font-weight: 600; color: #7B7B7B;
+            text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px;
+        }
+
+        /* ==============================================================
+               EXPERIENCE & PERSONAL PROJECTS CARDS
+               - Used for professional experience and personal projects.
+               - Header includes job title, company, and date.
+               - Bullet points with a custom dash (—) marker.
+               ============================================================== */
+        .exp-header {
+            display: flex; justify-content: space-between; flex-wrap: wrap; align-items: baseline; margin-bottom: 4px;
+        }
+        .exp-header h3 { font-size: 1.25rem; color: #222222; font-weight: 600; }
+        .exp-header .company { color: #7B7B7B; font-weight: 500; font-size: 0.95rem; }
+        .exp-header .date { font-size: 0.85rem; color: #7B7B7B; font-weight: 400; }
+        .exp-subtitle { font-weight: 500; color: #555; margin: 4px 0 8px; font-size: 0.95rem; }
+        .tech-stack {
+            font-size: 0.75rem; color: #222222; background: #F8F8F8;
+            display: inline-block; padding: 4px 16px; border-radius: 30px; margin-bottom: 14px; font-weight: 500;
+        }
+        .card ul { list-style: none; padding-left: 0; }
+        .card ul li {
+            padding-left: 22px; position: relative; margin-bottom: 8px;
+            font-size: 0.95rem; text-align: justify; color: #4b5563;
+        }
+        .card ul li::before { content: "—"; position: absolute; left: 0; color: #222222; font-weight: bold; }
+
+        /* ==============================================================
+               PROJECTS TABLE
+               - Displays key projects with their tech stack and status.
+               - Styled as a clean, bordered table.
+               ============================================================== */
+        .projects-table {
+            width: 100%; border-collapse: collapse; font-size: 0.9rem;
+            background: #FFFFFF; border-radius: 16px; overflow: hidden;
+            border: 1px solid #E5E5E5;
+        }
+        .projects-table th { background: #F8F8F8; color: #222222; text-align: left; padding: 14px 20px; border-bottom: 1px solid #E5E5E5; font-weight: 600; }
+        .projects-table td { padding: 14px 20px; border-bottom: 1px solid #E5E5E5; color: #4b5563; }
+        .projects-table tr:last-child td { border-bottom: none; }
+        .projects-table .app-name { font-weight: 600; color: #222222; width: 28%; }
+        .projects-table .stack { color: #7B7B7B; width: 55%; }
+        .projects-table .status { color: #222222; font-weight: 500; width: 17%; }
+
+        /* ==============================================================
+               EDUCATION
+               - Simple list of education entries.
+               - Each entry is a white card with light border.
+               ============================================================== */
+        .edu-item {
+            background: #FFFFFF; padding: 16px 20px; border-radius: 16px;
+            margin-bottom: 14px; border: 1px solid #E5E5E5;
+        }
+        .edu-item h4 { color: #222222; font-size: 1rem; }
+        .edu-item p { font-size: 0.85rem; color: #7B7B7B; margin-bottom: 2px; }
+        .edu-item .subjects { font-size: 0.8rem; color: #7B7B7B; }
+
+        /* ==============================================================
+               SOFT SKILLS
+               - Horizontal list of skill tags with check icons.
+               - Displayed in a white container with border.
+               ============================================================== */
+        .soft-skills-container {
+            display: flex; flex-wrap: wrap; gap: 12px 24px;
+            background: #FFFFFF; padding: 20px 24px; border-radius: 16px;
+            border: 1px solid #E5E5E5; font-size: 0.95rem; color: #444;
+        }
+        .soft-skills-container span { display: flex; align-items: center; gap: 8px; }
+        .soft-skills-container i { color: #222222; }
+
+        /* ==============================================================
+               FOOTER
+               - Three columns: Brand/Location, Contact, Social.
+               - Each column is centered with perfect alignment.
+               - Social icons are circular with hover effects.
+               ============================================================== */
+        footer {
+            background: #FFFFFF;
+            border-top: 1px solid #E5E5E5;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .footer-col h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: #222222;
+            text-align: center;
+            width: 100%;
+        }
+        .footer-col p, .footer-col a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7B7B7B;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            transition: color 0.2s;
+            text-align: center;
+            width: 100%;
+        }
+        .footer-col a:hover { color: #222222; }
+        .footer-col i { width: 20px; margin-right: 8px; color: #222222; }
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+            justify-content: center;
+            width: 100%;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #F8F8F8;
+            border: 1px solid #E5E5E5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #222222;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin: 0;
+            text-decoration: none;
+            line-height: 1;
+        }
+        .social-links a i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            margin: 0;
+        }
+        .social-links a:hover {
+            background: #222222;
+            color: #FFFFFF;
+            border-color: #222222;
+            transform: translateY(-3px);
+        }
+
+        /* ==============================================================
+               RESPONSIVE ADJUSTMENTS
+               - For screens smaller than 800px, stack elements vertically.
+               ============================================================== */
+        @media (max-width: 800px) {
+            .container { padding: 0 20px 40px; }
+            .hero-left { text-align: center; }
+            .hero-stats { justify-content: center; flex-wrap: wrap; gap: 16px; }
+            .scroll-indicator { display: none; }
+            header { flex-direction: column; gap: 12px; align-items: stretch; border-bottom: none; }
+            header .brand { text-align: center; }
+            header .nav-links { justify-content: center; flex-wrap: wrap; gap: 8px; }
+            header .nav-links .divider { display: none; }
+            h2 { font-size: 2rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-col { width: 100%; }
+            .social-links { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==============================================================
+    PRELOADER
+    - Shows while the page is loading.
+    - Hidden by JavaScript after the window load event.
+    ============================================================== -->
+    <div id="preloader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- ==============================================================
+    HEADER
+    - Contains the brand name and navigation links.
+    - Includes contact shortcuts (Email, Phone, LinkedIn, GitHub) and a CTA button.
+    ============================================================== -->
+    <div class="container">
+        <header>
+            <div class="brand">iOS Developer</div>
+            <div class="nav-links">
+                <!-- Contact Info Links -->
+                <a href="mailto:sarmaddawood66@gmail.com">Email</a>
+                <a href="tel:+923075386948">Phone</a>
+                <a href="https://www.linkedin.com/in/sarmad-dawood-992556177/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/sarmaddawood" target="_blank">GitHub</a>
+                
+                <!-- Vertical Divider -->
+                <span class="divider"></span>
+
+                <!-- Navigation Links (anchor to sections) -->
+                <a href="#about">About</a>
+                <a href="#experience">Work</a>
+                <a href="#projects">Projects</a>
+                <a href="mailto:sarmaddawood66@gmail.com" class="btn-cta">Book A Call</a>
+            </div>
+        </header>
+
+        <!-- ==============================================================
+        HERO SECTION
+        - Large heading, stats, subtitle, and scroll hint.
+        ============================================================== -->
+        <section class="hero reveal active">
+            <div class="hero-left">
+                <div class="hero-stats">
+                    <span><strong>+3</strong> Years Experience</span>
+                    <span><strong>+7</strong> Apps Shipped</span>
+                    <span><strong>+7</strong> Clients</span>
+                </div>
+                <h1>Hello, <br>I'm Sarmad</h1>
+                <div class="subtitle">iOS Developer &amp; SwiftUI Specialist</div>
+                <div class="scroll-indicator">
+                    <i class="fas fa-arrow-down"></i> Scroll down
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+        ABOUT SECTION
+        - Professional summary with key strengths and agentic coding passion.
+        ============================================================== -->
+        <section id="about" class="about-card card reveal delay-1">
+            <p>
+                <strong>Results‑driven iOS Developer</strong> with 3 years of hands‑on experience building production‑grade applications for enterprise clients and the public App Store. Expert in <strong>Swift 6, SwiftUI, and UIKit</strong> with deep proficiency in <strong>MVVM + Clean Architecture</strong>, Firebase, and native biometric face authentication (Luxand FaceSDK, C++ bridging).
+                <br><br>
+                <strong>I love agentic coding (aka vibe coding)</strong> – building AI‑driven autonomous workflows. My favorite AI tools are <strong>Claude, Kimi, Gemini, and DeepSeek</strong>. I focus more on <strong>problem solving</strong> than just writing code, emphasizing clean architecture, testability, and long‑term maintainability.
+                <br><br>
+                Specialist in B2B mobile delivery with parallel distribution pipelines (App Store, Unlisted, Ad Hoc, ABM/MDM). I thrive on leading technical decisions, mentoring, and bringing innovative solutions to the table.
+            </p>
+        </section>
+
+        <!-- ==============================================================
+        TECHNICAL SKILLS
+        - Grouped by category, each skill is a pill tag.
+        ============================================================== -->
+        <h2 class="reveal delay-1"><i class="fas fa-code"></i> Technical Skills</h2>
+        <div class="skill-category reveal delay-1">
+            <span class="label">Languages &amp; Core</span>
+            <div class="skills-grid">
+                <span class="skill-tag">Swift 6</span>
+                <span class="skill-tag">Swift 5.9</span>
+                <span class="skill-tag">Objective‑C</span>
+                <span class="skill-tag">C++ (bridge)</span>
+            </div>
+        </div>
+        <div class="skill-category reveal delay-2">
+            <span class="label">UI &amp; Architecture</span>
+            <div class="skills-grid">
+                <span class="skill-tag">SwiftUI</span>
+                <span class="skill-tag">UIKit</span>
+                <span class="skill-tag">Combine</span>
+                <span class="skill-tag">MVVM + Clean Arch</span>
+                <span class="skill-tag">Coordinator</span>
+                <span class="skill-tag">Repository</span>
+                <span class="skill-tag">Dependency Injection</span>
+            </div>
+        </div>
+        <div class="skill-category reveal delay-3">
+            <span class="label">Backend, Data &amp; Security</span>
+            <div class="skills-grid">
+                <span class="skill-tag">Firebase</span>
+                <span class="skill-tag">REST APIs</span>
+                <span class="skill-tag">Core Data / SwiftData</span>
+                <span class="skill-tag">Realm</span>
+                <span class="skill-tag">Keychain</span>
+                <span class="skill-tag">SSL Pinning</span>
+                <span class="skill-tag">FaceSDK (C++)</span>
+                <span class="skill-tag">LocalAuthentication</span>
+            </div>
+        </div>
+        <div class="skill-category reveal delay-4">
+            <span class="label">CI/CD &amp; Tools</span>
+            <div class="skills-grid">
+                <span class="skill-tag">ABM / MDM</span>
+                <span class="skill-tag">Fastlane</span>
+                <span class="skill-tag">App Store Connect</span>
+                <span class="skill-tag">GitHub / GitLab</span>
+                <span class="skill-tag">Xcode 15+</span>
+                <span class="skill-tag">Instruments</span>
+                <span class="skill-tag">TestFlight</span>
+            </div>
+        </div>
+
+        <!-- ==============================================================
+        PROFESSIONAL EXPERIENCE
+        - Two main roles: Tawajud Premium Plus (current) and Tawajud Patrol.
+        ============================================================== -->
+        <h2 id="experience" class="reveal delay-1"><i class="fas fa-briefcase"></i> Professional Experience</h2>
+
+        <!-- Tawajud Premium Plus -->
+        <div class="card reveal delay-1">
+            <div class="exp-header">
+                <h3>iOS Developer</h3>
+                <span class="company">Aman Integrated Solutions</span>
+                <span class="date">Nov 2023 – Present</span>
+            </div>
+            <div class="exp-subtitle">Tawajud Premium Plus — B2B Workforce Management &amp; Attendance</div>
+            <div class="tech-stack">SwiftUI · Swift 6 · Firebase · FaceSDK · ABM/MDM</div>
+            <ul>
+                <li><strong>Architecture:</strong> Architected a 50k+ LOC app using SwiftUI, Combine, and Swift 6 concurrency (actors, async/await). Modular MVVM + Clean Architecture with independent Swift packages.</li>
+                <li><strong>Networking:</strong> Generic Repository pattern; REST layer with OAuth 2.0 refresh, exponential back‑off, and typed error mapping.</li>
+                <li><strong>State Management:</strong> Combine + @Observable, batching UI updates to maintain 60 fps.</li>
+                <li><strong>Biometrics &amp; Location:</strong> LocalAuthentication (Face ID/Touch ID) with Keychain PIN fallback; background location with 50m accuracy.</li>
+                <li><strong>WidgetKit:</strong> Live countdown timer widget synced via App Groups showing punch‑in validation, shift duration, and task reports.</li>
+                <li><strong>C++ Bridge (Luxand FaceSDK):</strong> Integrated native C++ library via Objective‑C. Built enrollment, verification (0.995 threshold), passive liveness detection, and real‑time face overlay.</li>
+                <li><strong>Multi‑Target &amp; Distribution:</strong> Maintained multiple B2B targets with `#if` compiler flags. Distributions: App Store, Unlisted, Ad Hoc, ABM/MDM. Automated with Fastlane.</li>
+                <li><strong>Git Workflow:</strong> Feature branching, conflict resolution, interactive rebase, and mandatory PR reviews with CI checks.</li>
+                <li><strong>App Store Checklist:</strong> Instruments profiling (‑35% memory), Privacy Nutrition Label, accessibility, device matrix, app thinning, and 7‑day phased rollouts.</li>
+            </ul>
+        </div>
+
+        <!-- Tawajud Patrol -->
+        <div class="card reveal delay-2">
+            <div class="exp-header">
+                <h3>iOS Developer</h3>
+                <span class="company">Aman Integrated Solutions</span>
+                <span class="date">Apr 2025 – Present</span>
+            </div>
+            <div class="exp-subtitle">Tawajud Patrol — Gate Security &amp; Badge Scanning</div>
+            <div class="tech-stack">SwiftUI · Realm · Firebase · NWPathMonitor · ABM/MDM</div>
+            <ul>
+                <li>Designed a focused QR/barcode scanning app with haptic feedback for high‑volume checkpoints.</li>
+                <li>Offline‑first architecture using Realm; background sync via actor‑based SyncQueue.</li>
+                <li>Custom crash reporter with breadcrumb trails for rapid field triage.</li>
+                <li>Remote Config for runtime rules (intervals, sensitivity) without new builds.</li>
+                <li>Silent MDM distribution via ABM for automatic deployment to guard tablets.</li>
+            </ul>
+        </div>
+
+        <!-- ==============================================================
+        FREELANCE EXPERIENCE
+        - NCircle (Jan–Feb 2024) and Rooba (Jan–Feb 2025).
+        ============================================================== -->
+        <h2 class="reveal delay-1"><i class="fas fa-laptop"></i> Freelance Experience</h2>
+
+        <!-- NCircle -->
+        <div class="card reveal delay-1">
+            <div class="exp-header">
+                <h3>NCircle</h3>
+                <span class="company">International Client (Upwork)</span>
+                <span class="date">Jan – Feb 2024</span>
+            </div>
+            <div class="exp-subtitle">Online Tutoring &amp; Learning Platform</div>
+            <div class="tech-stack">SwiftUI · WebRTC · Firebase · Stripe · Core Data · ReplayKit</div>
+            <ul>
+                <li><strong>Dual‑Role System:</strong> Single SwiftUI codebase for Tutor/Student roles using a role‑aware Coordinator.</li>
+                <li><strong>Architecture:</strong> MVVM + Clean Architecture with 80%+ unit test coverage.</li>
+                <li><strong>Live Video:</strong> WebRTC integration with sub‑300ms connection; whiteboard via SwiftUI Canvas.</li>
+                <li><strong>Screen Sharing:</strong> ReplayKit with broadcast extension piped into WebRTC.</li>
+                <li><strong>Payments &amp; Scheduling:</strong> Stripe PaymentSheet (3D Secure), custom calendar picker, and timezone‑aware FCM reminders.</li>
+            </ul>
+        </div>
+
+        <!-- Rooba -->
+        <div class="card reveal delay-2">
+            <div class="exp-header">
+                <h3>Rooba</h3>
+                <span class="company">International Client (Upwork)</span>
+                <span class="date">Jan – Feb 2025</span>
+            </div>
+            <div class="exp-subtitle">Premium Dating Application</div>
+            <div class="tech-stack">SwiftUI · Swift 6 · Firebase · StoreKit 2 · Core Location · APNS</div>
+            <ul>
+                <li><strong>Geolocation &amp; UI:</strong> Haversine‑based discovery; swipe card interface with spring physics and haptic feedback.</li>
+                <li><strong>Authentication:</strong> Apple &amp; Google Sign‑In with Keychain‑stored tokens.</li>
+                <li><strong>Messaging &amp; Push:</strong> Real‑time Firestore chat with optimistic updates; rich push notifications with deep linking.</li>
+                <li><strong>Monetisation:</strong> StoreKit 2 subscriptions (weekly/monthly/annual) with server‑side entitlement gating.</li>
+                <li><strong>Compliance:</strong> Implemented in‑app account deletion, privacy labels, and zero P0/P1 bugs in TestFlight.</li>
+            </ul>
+        </div>
+
+        <!-- ==============================================================
+        PERSONAL PROJECTS & AGENTIC WORKFLOWS
+        - A list of personal projects, including the new "Shine On You" app.
+        ============================================================== -->
+        <h2 class="reveal delay-1"><i class="fas fa-robot"></i> Personal Projects &amp; Agentic Workflows</h2>
+
+        <!-- AI-Powered CLI Tool -->
+        <div class="card reveal delay-1">
+            <div class="exp-header">
+                <h3>AI-Powered CLI Tool</h3>
+                <span class="company">Personal Project</span>
+            </div>
+            <ul>
+                <li>Built a Swift CLI that integrates with OpenAI/Anthropic APIs to generate boilerplate SwiftUI modules (View, ViewModel, Tests) based on project structure context.</li>
+            </ul>
+        </div>
+
+        <!-- Automated PR Reviewer -->
+        <div class="card reveal delay-2">
+            <div class="exp-header">
+                <h3>Automated PR Reviewer</h3>
+                <span class="company">Personal Project</span>
+            </div>
+            <ul>
+                <li>GitHub Action leveraging Gemini API to review PRs for memory leaks and concurrency pitfalls, reducing review time by ~30%.</li>
+            </ul>
+        </div>
+
+        <!-- SwiftUI Layout Prototyper -->
+        <div class="card reveal delay-3">
+            <div class="exp-header">
+                <h3>SwiftUI Layout Prototyper</h3>
+                <span class="company">Personal Project</span>
+            </div>
+            <ul>
+                <li>Interactive playground using Vision framework that auto‑converts hand‑drawn mockups into primitive SwiftUI components.</li>
+            </ul>
+        </div>
+
+        <!-- Agentic Coding Environment -->
+        <div class="card reveal delay-4">
+            <div class="exp-header">
+                <h3>Agentic Coding Environment</h3>
+                <span class="company">Personal Project</span>
+            </div>
+            <ul>
+                <li>Configured a local Docker/LangChain setup to experiment with agents that suggest accessibility improvements based on Apple's HIG.</li>
+            </ul>
+        </div>
+
+        <!-- Shine On You (Full Detail Card) -->
+        <div class="card reveal delay-1">
+            <div class="exp-header">
+                <h3>Shine On You</h3>
+                <span class="company">Personal Project</span>
+                <span class="date">Live on App Store</span>
+            </div>
+            <div class="exp-subtitle">E‑Commerce Cosmetic App with Real‑Time Tracking &amp; Support</div>
+            <div class="tech-stack">Flutter · Supabase · Agentic Coding · Push Notifications · In‑App Chat</div>
+            <ul>
+                <li>Built entirely using <strong>agentic coding workflows</strong>, leveraging AI to accelerate the development of a fully functional cross‑platform Flutter app.</li>
+                <li>Architected a robust backend using <strong>Supabase</strong> to handle user authentication, product inventory, and real‑time order tracking.</li>
+                <li>Integrated an <strong>in‑app chat system</strong> allowing customers to communicate directly with support staff in real time.</li>
+                <li>Implemented <strong>push notifications</strong> to keep users updated on their order status, delivery milestones, and promotional offers.</li>
+                <li>Developed for a personal friend's cosmetic business; fully live on the <strong>App Store</strong> with a seamless end‑to‑end shopping experience.</li>
+            </ul>
+        </div>
+
+        <!-- ==============================================================
+        CURRENTLY EXPLORING
+        - A list of technologies and topics the developer is learning.
+        ============================================================== -->
+        <h2 class="reveal delay-2"><i class="fas fa-lightbulb"></i> Currently Exploring</h2>
+        <div class="card reveal delay-2">
+            <ul>
+                <li><strong>On‑Device AI:</strong> Apple Foundation Models and Core ML for privacy‑preserving sentiment analysis and translation.</li>
+                <li><strong>VisionOS &amp; Spatial Computing:</strong> Actively learning VisionOS and RealityKit for future enterprise applications.</li>
+                <li><strong>Swift Macros:</strong> Deep dive into macros to automate `Equatable`/`Hashable` conformance and generate type‑safe networking layers.</li>
+                <li><strong>AI‑Driven Testing:</strong> Experimenting with generative AI to auto‑produce XCUITest scripts from user flow recordings.</li>
+            </ul>
+        </div>
+
+        <!-- ==============================================================
+        KEY PROJECTS & APP STORE PRESENCE
+        - Table listing all major apps with tech stack and status.
+        ============================================================== -->
+        <h2 id="projects" class="reveal delay-1"><i class="fas fa-rocket"></i> Key Projects &amp; App Store Presence</h2>
+        <table class="projects-table reveal delay-1">
+            <thead>
+                <tr><th>App</th><th>Tech Stack</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="app-name">Tawajud Premium Plus</td>
+                    <td class="stack">SwiftUI, Swift 6, Combine, Firebase, FaceSDK, ABM/MDM</td>
+                    <td class="status">Live (App Store)</td>
+                </tr>
+                <tr>
+                    <td class="app-name">Tawajud Patrol</td>
+                    <td class="stack">SwiftUI, Realm, Firebase, NWPathMonitor, ABM/MDM</td>
+                    <td class="status">Delivered (B2B)</td>
+                </tr>
+                <tr>
+                    <td class="app-name">NCircle</td>
+                    <td class="stack">SwiftUI, WebRTC, Firebase, Stripe, Core Data</td>
+                    <td class="status">N/A</td>
+                </tr>
+                <tr>
+                    <td class="app-name">Rooba</td>
+                    <td class="stack">SwiftUI, Swift 6, Firebase, StoreKit 2, Core Location</td>
+                    <td class="status">N/A</td>
+                </tr>
+                <tr>
+                    <td class="app-name">Shine On You</td>
+                    <td class="stack">Flutter, Supabase, Push Notifications, Chat</td>
+                    <td class="status">Live (App Store)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- ==============================================================
+        EDUCATION
+        - BS Computer Science, HSSC, SSC.
+        ============================================================== -->
+        <h2 class="reveal delay-1"><i class="fas fa-graduation-cap"></i> Education</h2>
+        <div class="edu-item reveal delay-1">
+            <h4>BS Computer Science</h4>
+            <p>PMAS Arid Agriculture University | CGPA: 3.08/4.00 | Graduated: 2023</p>
+            <p class="subjects"><strong>Coursework:</strong> Mobile App Dev, InfoSec, AI, Software Engineering, DBMS, OOP, DSA.</p>
+        </div>
+        <div class="edu-item reveal delay-2">
+            <h4>HSSC (Intermediate)</h4>
+            <p>Board of Intermediate, Rawalpindi | 569/1100 (Grade C) | 2019</p>
+            <p class="subjects">English, Urdu, Mathematics, Physics, Computer Science, Islamic Education, Pakistan Studies</p>
+        </div>
+        <div class="edu-item reveal delay-3">
+            <h4>SSC (Matriculation)</h4>
+            <p>Board of Intermediate, Rawalpindi | 736/1100 (Grade B) | 2017</p>
+            <p class="subjects">English, Urdu, Mathematics, Physics, Chemistry, Computer Science, Islamiyat, Pakistan Studies</p>
+        </div>
+
+        <!-- ==============================================================
+        SOFT SKILLS
+        - Horizontal list of soft skills with check icons.
+        ============================================================== -->
+        <h2 class="reveal delay-1"><i class="fas fa-users"></i> Soft Skills</h2>
+        <div class="soft-skills-container reveal delay-1">
+            <span><i class="fas fa-check-circle"></i> Clear technical communication</span>
+            <span><i class="fas fa-check-circle"></i> Passionate about agentic coding (vibe coding)</span>
+            <span><i class="fas fa-check-circle"></i> AI Tools: Claude, Kimi, Gemini, DeepSeek</span>
+            <span><i class="fas fa-check-circle"></i> Focus on problem solving over code lines</span>
+            <span><i class="fas fa-check-circle"></i> Agile / Scrum practitioner</span>
+            <span><i class="fas fa-check-circle"></i> Self‑directed learner &amp; WWDC enthusiast</span>
+            <span><i class="fas fa-check-circle"></i> High code quality (SwiftLint, DocC)</span>
+            <span><i class="fas fa-check-circle"></i> Collaborative reviewer &amp; mentor</span>
+        </div>
+
+        <!-- ==============================================================
+        FOOTER
+        - Three columns: Brand, Contact, Social Links.
+        ============================================================== -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <!-- Column 1: Brand & Location -->
+                    <div class="footer-col">
+                        <h4>Sarmad Dawood</h4>
+                        <p class="footer-tagline">iOS Developer &amp; SwiftUI Specialist</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Rawalpindi, Pakistan</p>
+                    </div>
+                    
+                    <!-- Column 2: Direct Contact -->
+                    <div class="footer-col">
+                        <h4>Contact</h4>
+                        <a href="mailto:sarmaddawood66@gmail.com"><i class="fas fa-envelope"></i> sarmaddawood66@gmail.com</a>
+                        <a href="tel:+923075386948"><i class="fas fa-phone-alt"></i> (+92) 307-5386948</a>
+                    </div>
+                    
+                    <!-- Column 3: Social Links -->
+                    <div class="footer-col">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/sarmad-dawood-992556177/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/sarmaddawood" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==============================================================
+    JAVASCRIPT
+    - Preloader: hides the preloader after the page loads.
+    - Scroll Reveal: uses IntersectionObserver to animate elements on scroll.
+    ============================================================== -->
+    <script>
+        // PRELOADER: hide after load
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            preloader.classList.add('hidden');
+            setTimeout(() => { preloader.style.display = 'none'; }, 600);
+        });
+
+        // SCROLL REVEAL: apply .active to .reveal elements when they enter viewport
+        const revealElements = document.querySelectorAll('.reveal:not(.active)');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        revealElements.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
